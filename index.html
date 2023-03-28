@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Haushaltsbuch</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+      src="https://kit.fontawesome.com/159db6d9fb.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body class="bg-slate-900">
+    <header
+      class="flex justify-center items-center bg-slate-800 text-gray-300 text-5xl p-5 border-b border-sky-500"
+    >
+      <a href="index.html">Haushaltbuch</a>
+    </header>
+
+    <section class="newInputContainer">
+      <input type="text" name="title" id="inputTitle" />
+      <input type="text" name="amount" id="inputAmount" />
+      <input type="date" name="date" id="inputDate" />
+    </section>
+
+    <main></main>
+
+    <footer
+      class="footer flex justify-center absolute bottom-0 left-0 w-full p-2 text-slate-300"
+    >
+      <p class="font-bold">
+        <span class="pr-2 font-normal">
+          Copyright ©
+          <script type="text/javascript">
+            const year = new Date();
+            document.write(year.getFullYear());
+          </script></span
+        >
+        Seb887
+      </p>
+      <a
+        class="pl-1 hover:text-sky-500"
+        href="https://github.com/seb887"
+        target="_blank"
+      >
+        <i class="fab fa-github"></i
+      ></a>
+    </footer>
+  </body>
+</html>
