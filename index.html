@@ -13,21 +13,152 @@
   </head>
   <body class="bg-slate-900">
     <header
-      class="flex justify-center items-center bg-slate-800 text-gray-300 text-5xl p-5 border-b border-sky-500"
+      class="flex justify-center items-center bg-slate-800 text-gray-300 text-5xl p-5 border-b border-purple-500"
     >
       <a href="index.html">Haushaltbuch</a>
     </header>
 
-    <section class="newInputContainer">
-      <input type="text" name="title" id="inputTitle" />
-      <input type="text" name="amount" id="inputAmount" />
-      <input type="date" name="date" id="inputDate" />
+    <section class="entriesContainerSection">
+      <div class="button grid justify-center">
+        <button
+          type="button"
+          class="h-10 w-32 m-10 bg-purple-500 hover:bg-purple-400 text-black rounded-xl hover:scale-105"
+          id="newEntryButton"
+        >
+          New Entry
+        </button>
+      </div>
+      <div
+        class="entriesContainer grid xl:grid-cols-4 xl:m-20 xl:mt-0 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 sm:m-10 sm:mt-0 gap-10"
+      ></div>
     </section>
+
+    <!-- New Entry Modal -->
+    <section class="newEntryModalSection hidden">
+      <div
+        class="newEntryModal grid justify-center fixed inset-x-1/2 inset-y-1/4 z-10"
+      >
+        <div
+          class="bg-slate-700 h-auto p-5 border border-purple-500 rounded-3xl z-10"
+          id="newEntryModal"
+        >
+          <div class="modalHeader flex justify-between mb-8">
+            <div class="text-2xl font-extrabold">New Entry</div>
+            <button class="closeModalButton text-2xl inline-block align-top">
+              &times;
+            </button>
+          </div>
+          <form class="form grid" method="get">
+            <div class="flex justify-center mb-5 pl-10 pr-10">
+              <input
+                type="radio"
+                id="income"
+                class="mr-2"
+                name="typ"
+                value="income"
+                form="inputForm"
+                title="Typ des Eintrags"
+              />
+              <label for="einnahme" class="pr-10 text-green-500">Income</label>
+              <input
+                type="radio"
+                id="expense"
+                class="mr-2"
+                name="typ"
+                value="expense"
+                form="inputForm"
+                title="Typ des Eintrags"
+                checked
+              />
+              <label for="expense" class="text-red-500">Expense</label>
+            </div>
+            <label for="title" class="flex justify-start mb-1">Title</label>
+            <input
+              name="title"
+              type="text"
+              form="inputForm"
+              class="pl-1 bg-slate-300 text-slate-900 rounded-sm"
+              id="inputTitle"
+              title="Titel des Eintrags"
+              required
+            />
+            <label for="amount" class="flex justify-start mb-1 mt-5"
+              >Amount</label
+            >
+            <input
+              name="amount"
+              type="number"
+              form="inputForm"
+              class="pl-1 bg-slate-300 text-slate-900 rounded-sm"
+              id="inputAmount"
+              title="Betrag des Eintrags"
+              required
+            />
+            <label for="date" class="flex justify-start mb-1 mt-5">Date</label>
+            <input
+              name="date"
+              type="date"
+              form="inputForm"
+              class="mb-16 pl-1 bg-slate-300 text-slate-900 rounded-sm"
+              id="inputDate"
+              title="Datum des Eintrags"
+              required
+            />
+
+            <div>
+              <button
+                type="button"
+                class="h-10 w-32 bg-purple-500 hover:bg-purple-400 text-black rounded-xl hover:scale-105"
+                id="saveNewBookButton"
+              >
+                Save
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div
+        class="overlay fixed top-0 bottom-0 left-0 right-0 bg-black bg-opacity-90 z-0"
+      ></div>
+    </section>
+
+    <!-- <section class="newInputContainer w-2/4 m-10 text-gray-300">
+      <div class="p-5">
+        <label for="title">Title</label>
+        <input type="text" name="title" id="inputTitle" form="inputForm" />
+
+        <input
+          type="radio"
+          id="income"
+          name="typ"
+          value="income"
+          form="inputForm"
+        />
+        <label for="einnahme">Income</label>
+        <input
+          type="radio"
+          id="expense"
+          name="typ"
+          value="expense"
+          form="inputForm"
+          checked
+        />
+        <label for="expense">Expense</label>
+      </div>
+      <div class="p-5">
+        <label for="amount">Amount</label>
+        <input type="number" name="amount" form="inputForm" id="inputAmount" />
+
+        <label for="date">Date</label>
+        <input type="date" name="date" form="inputForm" id="inputDate" />
+      </div>
+    </section> -->
 
     <main></main>
 
     <footer
-      class="footer flex justify-center absolute bottom-0 left-0 w-full p-2 text-slate-300"
+      class="footer flex justify-center absolute bottom-0 left-0 w-full p-2 text-slate-300 -z-10"
     >
       <p class="font-bold">
         <span class="pr-2 font-normal">
@@ -40,7 +171,7 @@
         Seb887
       </p>
       <a
-        class="pl-1 hover:text-sky-500"
+        class="pl-1 hover:text-purple-500"
         href="https://github.com/seb887"
         target="_blank"
       >
