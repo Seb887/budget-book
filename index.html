@@ -2,8 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      http-equiv="X-UA-Compatible"
+      content="IE=edge"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0"
+    />
     <title>Haushaltsbuch</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script
@@ -48,7 +54,10 @@
               &times;
             </button>
           </div>
-          <form class="form grid" method="get">
+          <form
+            class="form grid"
+            method="get"
+          >
             <div class="flex justify-center mb-5 pl-10 pr-10">
               <input
                 type="radio"
@@ -59,7 +68,11 @@
                 form="inputForm"
                 title="Typ des Eintrags"
               />
-              <label for="einnahme" class="pr-10 text-green-500">Income</label>
+              <label
+                for="einnahme"
+                class="pr-10 text-green-500"
+                >Income</label
+              >
               <input
                 type="radio"
                 id="expense"
@@ -70,9 +83,17 @@
                 title="Typ des Eintrags"
                 checked
               />
-              <label for="expense" class="text-red-500">Expense</label>
+              <label
+                for="expense"
+                class="text-red-500"
+                >Expense</label
+              >
             </div>
-            <label for="title" class="flex justify-start mb-1">Title</label>
+            <label
+              for="title"
+              class="flex justify-start mb-1"
+              >Title</label
+            >
             <input
               name="title"
               type="text"
@@ -82,7 +103,9 @@
               title="Titel des Eintrags"
               required
             />
-            <label for="amount" class="flex justify-start mb-1 mt-5"
+            <label
+              for="amount"
+              class="flex justify-start mb-1 mt-5"
               >Amount</label
             >
             <input
@@ -94,7 +117,11 @@
               title="Betrag des Eintrags"
               required
             />
-            <label for="date" class="flex justify-start mb-1 mt-5">Date</label>
+            <label
+              for="date"
+              class="flex justify-start mb-1 mt-5"
+              >Date</label
+            >
             <input
               name="date"
               type="date"
@@ -178,5 +205,7 @@
         <i class="fab fa-github"></i
       ></a>
     </footer>
+
+    <script src="app.js"></script>
   </body>
 </html>
