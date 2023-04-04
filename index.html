@@ -44,18 +44,18 @@
         <div
           class="monthContainer space-y-4 mt-10 p-5 bg-slate-800 border border-slate-500 rounded-xl"
         >
-          <header class="monthHeader flex justify-between">
+          <!-- <header class="monthHeader flex justify-between">
             <h1 class="month font-extrabold text-xl text-slate-300">
               März 2023
             </h1>
             <span class="text-right font-medium text-xl text-green-500"
               >1781,55 €</span
             >
-          </header>
+          </header> -->
 
-          <ul class="liste">
-            <li
-              class="ausgabe grid grid-cols-12 bg-slate-600 text-gray-300 rounded-lg"
+          <ul class="liste space-y-4">
+            <!-- <li
+              class="ausgabe grid grid-cols-12 bg-slate-600 text-gray-300 border border-slate-900 rounded-lg"
             >
               <span
                 class="eingabeDatum p-2 col-span-2 text-center border-r border-slate-700"
@@ -77,7 +77,7 @@
               >
                 <i class="fa-solid fa-trash"></i>
               </button>
-            </li>
+            </li> -->
           </ul>
 
           <!-- <div
@@ -173,10 +173,10 @@
             <div class="flex justify-center mb-5 pl-10 pr-10">
               <input
                 type="radio"
-                id="income"
-                class="mr-2"
+                id="einnahme"
+                class="inputTyp mr-2"
                 name="typ"
-                value="income"
+                value="einnahme"
                 form="inputForm"
                 title="Typ des Eintrags"
               />
@@ -187,59 +187,59 @@
               >
               <input
                 type="radio"
-                id="expense"
-                class="mr-2"
+                id="ausgabe"
+                class="inputTyp mr-2"
                 name="typ"
-                value="expense"
+                value="ausgabe"
                 form="inputForm"
                 title="Typ des Eintrags"
                 checked
               />
               <label
-                for="expense"
+                for="ausgabe"
                 class="text-red-500"
                 >Expense</label
               >
             </div>
             <label
-              for="title"
+              for="titel"
               class="flex justify-start mb-1"
-              >Title</label
+              >Titel</label
             >
             <input
-              name="title"
+              name="titel"
               type="text"
               form="inputForm"
               class="pl-1 bg-slate-300 text-slate-900 rounded-sm"
-              id="inputTitle"
+              id="inputTitel"
               title="Titel des Eintrags"
               required
             />
             <label
-              for="amount"
+              for="betrag"
               class="flex justify-start mb-1 mt-5"
-              >Amount</label
+              >Betrag</label
             >
             <input
-              name="amount"
+              name="betrag"
               type="number"
               form="inputForm"
               class="pl-1 bg-slate-300 text-slate-900 rounded-sm"
-              id="inputAmount"
+              id="inputBetrag"
               title="Betrag des Eintrags"
               required
             />
             <label
-              for="date"
+              for="datum"
               class="flex justify-start mb-1 mt-5"
               >Date</label
             >
             <input
-              name="date"
+              name="datum"
               type="date"
               form="inputForm"
               class="mb-16 pl-1 bg-slate-300 text-slate-900 rounded-sm"
-              id="inputDate"
+              id="inputDatum"
               title="Datum des Eintrags"
               required
             />
@@ -248,7 +248,7 @@
               <button
                 type="button"
                 class="h-12 w-28 p-3 bg-sky-500 hover:bg-sky-400 text-gray-900 rounded-xl hover:scale-105"
-                id="saveNewBookButton"
+                id="saveButton"
               >
                 Save
               </button>
