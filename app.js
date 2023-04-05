@@ -41,7 +41,7 @@ const cancelInput = () => {
   closeModal();
 };
 
-const createNewListItem = function (obj) {
+const createNewListItem = (obj) => {
   const timestamp = Date.now();
 
   const listenelement = document.createElement('li');
@@ -66,8 +66,12 @@ const createNewListItem = function (obj) {
     'border-r',
     'border-slate-700'
   );
-  console.log(obj.datum);
-  datum.textContent = obj.datum;
+  // console.log(typeof obj.datum);
+  datum.textContent = obj.datum.toLocaleDateString('de-DE', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  });
 
   const titel = document.createElement('span');
   titel.classList.add(
@@ -95,10 +99,10 @@ const createNewListItem = function (obj) {
   );
   if (obj.typ === 'ausgabe') {
     betrag.classList.add('text-red-500');
-    betrag.textContent = `-${obj.betrag} €`;
+    betrag.textContent = `-${obj.betrag.toFixed(2).replace(/\./, ',')} €`;
   } else {
     betrag.classList.add('text-green-500');
-    betrag.textContent = `${obj.betrag} €`;
+    betrag.textContent = `${obj.betrag.toFixed(2).replace(/\./, ',')} €`;
   }
 
   const eintragLöschen = document.createElement('button');
@@ -124,6 +128,11 @@ const createNewListItem = function (obj) {
   return listenelement;
 };
 
+// TODO: Funktioniert noch nicht
+const eintraegeSort = () => {
+  einraege.sort((a, b) => a - b);
+};
+
 const refreshHTML = function () {
   clearList();
   einraege.forEach((e) => createNewListItem(e));
@@ -143,12 +152,13 @@ const eintragHinzufuegen = function () {
 
   const neuerEintrag = {
     typ: typ,
-    datum: inputDatum.value,
+    datum: inputDatum.valueAsDate,
     titel: inputTitel.value,
-    betrag: inputBetrag.value,
+    betrag: parseFloat(inputBetrag.value),
   };
 
   einraege.push(neuerEintrag);
+  console.log(einraege);
 
   cancelInput();
   refreshHTML();
@@ -159,3 +169,13 @@ const clearList = () => {
     ulElement.removeChild(ulElement.firstChild);
   }
 };
+
+// TEST
+const date = new Date();
+console.log(
+  date.toLocaleDateString('de-DE', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  })
+);
