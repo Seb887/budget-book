@@ -15,32 +15,41 @@ const inputBetrag = document.querySelector('#inputBetrag');
 
 // console.log(newEntryButton);
 
-let einraege = [];
+let eintraege = [];
 
-// Events
+// --- EVENTS ---
+
 newEntryButton.onclick = () => openModal();
 closeModalButton.onclick = () => cancelInput();
 overlay.onclick = () => cancelInput();
 saveButton.onclick = () => eintragHinzufuegen();
 
+// --- FUNCTIONS ---
+
+// Eingabemodal öffnen
 const openModal = () => {
   newEntrySection.classList.remove('hidden');
 };
+
+// Eingabemodal schließen
 const closeModal = () => {
   newEntrySection.classList.add('hidden');
 };
 
+// Input des Eingabemodals leeren
 const clearInputs = () => {
   inputDatum.value = '';
   inputTitel.value = '';
   inputBetrag.value = '';
 };
 
+// Input des Eingabemodals leeren und abbrechen
 const cancelInput = () => {
   clearInputs();
   closeModal();
 };
 
+// HTML für neuen Listeneintrag erstellen
 const createNewListItem = (obj) => {
   const timestamp = Date.now();
 
@@ -128,40 +137,57 @@ const createNewListItem = (obj) => {
   return listenelement;
 };
 
-// TODO: Funktioniert noch nicht
+// Listenelemente sortieren
 const eintraegeSort = () => {
-  einraege.sort((a, b) => a - b);
+  eintraege.sort((a, b) => {
+    if (a.datum > b.datum) {
+      return -1;
+    } else if (a.datum < b.datum) {
+      return 1;
+    } else {
+      if (a.timestamp > b.timestamp) {
+        return -1;
+      } else {
+        return 1;
+      }
+    }
+  });
+  return eintraege;
 };
 
-const refreshHTML = function () {
+// HTML aktualisieren
+const htmlAktualisieren = () => {
   clearList();
-  einraege.forEach((e) => createNewListItem(e));
+  eintraege.forEach((e) => createNewListItem(e));
 };
 
+// Eintrag hinzufügen
 const eintragHinzufuegen = function () {
   let typ;
 
+  // Eingabetyp überprüfen
   inputTyp.forEach((e) => {
     if (e.checked === true && e.id === 'ausgabe') {
-      console.log(e.checked + e.id);
       typ = 'ausgabe';
     } else {
       typ = 'einnahme';
     }
   });
 
+  // Neuen Eintrag anlegen und formatieren
   const neuerEintrag = {
     typ: typ,
     datum: inputDatum.valueAsDate,
     titel: inputTitel.value,
     betrag: parseFloat(inputBetrag.value),
+    timestamp: Date.now(),
   };
-
-  einraege.push(neuerEintrag);
-  console.log(einraege);
+  eintraege.push(neuerEintrag);
+  console.log(eintraege);
 
   cancelInput();
-  refreshHTML();
+  eintraegeSort();
+  htmlAktualisieren();
 };
 
 const clearList = () => {
@@ -171,6 +197,7 @@ const clearList = () => {
 };
 
 // TEST
+/* 
 const date = new Date();
 console.log(
   date.toLocaleDateString('de-DE', {
@@ -179,3 +206,16 @@ console.log(
     day: '2-digit',
   })
 );
+*/
+
+let zahlenSortieren = [
+  { timestamp: 2 },
+  { timestamp: 4 },
+  { timestamp: 7 },
+  { timestamp: 1 },
+  { timestamp: 555 },
+];
+
+// zahlenSortieren = zahlenSortieren.sort((a.date, b.date) {return b.date - a.date});
+
+// console.log('Sortierter Arr:', eintraegeSort(zahlenSortieren));
