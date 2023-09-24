@@ -1,10 +1,8 @@
 'use strict';
 
-const newEntrySection = document.querySelector('.newEntryModalSection');
-const newEntryButton = document.querySelector('#newEntryButton');
-const closeModalButton = document.querySelector('.closeModalButton');
-const overlay = document.querySelector('.overlay');
-const saveButton = document.querySelector('#saveButton');
+// const modal = require('Modal');
+
+// -----------------------------------------------------------
 
 const ulElement = document.querySelector('.liste');
 
@@ -17,37 +15,7 @@ const inputBetrag = document.querySelector('#inputBetrag');
 
 let eintraege = [];
 
-// --- EVENTS ---
-
-newEntryButton.onclick = () => openModal();
-closeModalButton.onclick = () => cancelInput();
-overlay.onclick = () => cancelInput();
-saveButton.onclick = () => eintragHinzufuegen();
-
 // --- FUNCTIONS ---
-
-// Eingabemodal öffnen
-const openModal = () => {
-  newEntrySection.classList.remove('hidden');
-};
-
-// Eingabemodal schließen
-const closeModal = () => {
-  newEntrySection.classList.add('hidden');
-};
-
-// Input des Eingabemodals leeren
-const clearInputs = () => {
-  inputDatum.value = '';
-  inputTitel.value = '';
-  inputBetrag.value = '';
-};
-
-// Input des Eingabemodals leeren und abbrechen
-const cancelInput = () => {
-  clearInputs();
-  closeModal();
-};
 
 // HTML für neuen Listeneintrag erstellen
 const createNewListItem = (obj) => {
@@ -137,85 +105,26 @@ const createNewListItem = (obj) => {
   return listenelement;
 };
 
-// Listenelemente sortieren
-const eintraegeSort = () => {
-  eintraege.sort((a, b) => {
-    if (a.datum > b.datum) {
-      return -1;
-    } else if (a.datum < b.datum) {
-      return 1;
-    } else {
-      if (a.timestamp > b.timestamp) {
-        return -1;
-      } else {
-        return 1;
-      }
-    }
-  });
-  return eintraege;
-};
+// // Listenelemente sortieren
+// const eintraegeSort = () => {
+//   eintraege.sort((a, b) => {
+//     if (a.datum > b.datum) {
+//       return -1;
+//     } else if (a.datum < b.datum) {
+//       return 1;
+//     } else {
+//       if (a.timestamp > b.timestamp) {
+//         return -1;
+//       } else {
+//         return 1;
+//       }
+//     }
+//   });
+//   return eintraege;
+// };
 
 // HTML aktualisieren
 const htmlAktualisieren = () => {
   clearList();
   eintraege.forEach((e) => createNewListItem(e));
 };
-
-// Eintrag hinzufügen
-const eintragHinzufuegen = function () {
-  let typ;
-
-  // Eingabetyp überprüfen
-  inputTyp.forEach((e) => {
-    if (e.checked === true && e.id === 'ausgabe') {
-      typ = 'ausgabe';
-    } else {
-      typ = 'einnahme';
-    }
-  });
-
-  // Neuen Eintrag anlegen und formatieren
-  const neuerEintrag = {
-    typ: typ,
-    datum: inputDatum.valueAsDate,
-    titel: inputTitel.value,
-    betrag: parseFloat(inputBetrag.value),
-    timestamp: Date.now(),
-  };
-  eintraege.push(neuerEintrag);
-  console.log(eintraege);
-
-  cancelInput();
-  eintraegeSort();
-  htmlAktualisieren();
-};
-
-const clearList = () => {
-  while (ulElement.firstChild) {
-    ulElement.removeChild(ulElement.firstChild);
-  }
-};
-
-// TEST
-/* 
-const date = new Date();
-console.log(
-  date.toLocaleDateString('de-DE', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  })
-);
-*/
-
-let zahlenSortieren = [
-  { timestamp: 2 },
-  { timestamp: 4 },
-  { timestamp: 7 },
-  { timestamp: 1 },
-  { timestamp: 555 },
-];
-
-// zahlenSortieren = zahlenSortieren.sort((a.date, b.date) {return b.date - a.date});
-
-// console.log('Sortierter Arr:', eintraegeSort(zahlenSortieren));
