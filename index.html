@@ -26,318 +26,283 @@
     </header>
 
     <!-- Main section -->
-    <main class="flex flex-col justify-center">
-      <section class="input-section flex justify-between m-10">
-        <div
-          class="input-container p-5 border border-slate-500 rounded-xl bg-slate-800"
-        >
-          <form
-            id="input-form"
-            action="#"
-            method="get"
-          ></form>
+    <main class="">
+      <section class="input-section flex justify-center m-10 mb-14">
+        <div class="container flex justify-between w-3/6">
+          <div
+            class="input-container p-5 border border-slate-500 rounded-xl bg-slate-800"
+          >
+            <form
+              id="input-form"
+              action="#"
+              method="get"
+            ></form>
 
-          <!-- Input typ -->
-          <div class="input-typ flex justify-start mb-5">
-            <input type="radio" id="einnahme" name="typ"
-            value="einnahme"input-form" title="Typ des Eintrags" />
-            <label
-              class="text-gray-300 pr-5"
-              for="einnahme"
-              title="Typ des Eintrags"
-              >Einnahme</label
-            >
-            <input
-              type="radio"
-              id="ausgabe"
-              name="typ"
-              value="ausgabe"
-              form="input-form"
-              title="Typ des Eintrags"
-              checked=""
-            />
-            <label
-              class="text-gray-300"
-              for="ausgabe"
-              title="Typ des Eintrags"
-              >Ausgabe</label
-            >
-          </div>
-
-          <!-- Inputs -->
-          <div class="inputs flex flex-col gap-3 w-96">
-            <input
-              class="input-title p-3 pl-2 rounded-sm"
-              type="text"
-              id="title"
-              form="input-form"
-              name="title"
-              placeholder="z.B. Einkaufen"
-              size="10"
-              title="Titel des Eintrags"
-            />
-            <input
-              class="input-date p-3 pl-2 rounded-sm"
-              type="date"
-              id="date"
-              name="date"
-              form="input-form"
-              size="10"
-              title="Datum des Eintrags"
-            />
-            <input
-              class="input-amount p-3 pl-2 rounded-sm"
-              type="number"
-              id="amount"
-              name="amount"
-              form="input-form"
-              placeholder="z.B. 10,42"
-              size="10"
-              step="0.01"
-              min="0.01"
-              title="Betrag des Eintrags (max. zwei Nachkommastellen, kein €-Zeichen)"
-            />
-            <div class="flex justify-center">
-              <button
-                class="submit-btn border rounded-md w-48 h-10 mt-5"
-                type="submit"
+            <!-- Input typ -->
+            <div class="input-typ flex justify-center mb-5">
+              <input
+                type="radio"
+                id="expense"
+                name="typ"
+                value="expense"
                 form="input-form"
+                title="Typ des Eintrags"
+                checked=""
+              />
+              <label
+                class="pl-2 pr-10 text-gray-300"
+                for="expense"
+                title="Typ des Eintrags"
+                >expense</label
               >
-                Add
-              </button>
+              <input
+                type="radio"
+                id="income"
+                name="typ"
+                value="income"
+                form="input-form"
+                title="Typ des Eintrags"
+              />
+              <label
+                class="pl-2 pr-10 text-gray-300"
+                for="income"
+                title="Typ des Eintrags"
+                >income</label
+              >
+              <input
+                type="radio"
+                id="rebooking"
+                name="typ"
+                value="rebooking"
+                form="input-form"
+                title="Typ des Eintrags"
+              />
+              <label
+                class="pl-2 text-gray-300 pr-5"
+                for="rebooking"
+                title="Typ des Eintrags"
+                >rebooking</label
+              >
+            </div>
+
+            <!-- Inputs -->
+            <div class="inputs flex flex-col gap-3 w-96">
+              <input
+                class="p-3 pl-3 rounded-sm bg-gray-300 placeholder-gray-500"
+                type="text"
+                id="input-title"
+                form="input-form"
+                name="title"
+                placeholder="z.B. Einkaufen"
+                size="10"
+                title="Titel des Eintrags"
+              />
+              <input
+                class="p-3 pl-2 rounded-sm bg-gray-300 placeholder:text-gray-500"
+                type="date"
+                id="input-date"
+                name="date"
+                form="input-form"
+                size="10"
+                title="Datum des Eintrags"
+              />
+              <input
+                class="p-3 pl-3 rounded-sm bg-gray-300 placeholder-gray-500"
+                type="number"
+                id="input-amount"
+                name="amount"
+                form="input-form"
+                placeholder="z.B. 10,42"
+                size="10"
+                step="0.01"
+                min="0.01"
+                title="Betrag des Eintrags (max. zwei Nachkommastellen, kein €-Zeichen)"
+              />
+              <div class="flex justify-center">
+                <button
+                  class="border rounded-md w-48 h-10 mt-5 bg-slate-600 text-gray-300 hover:text-sky-500 hover:font-bold hover:border-sky-500 hover:border-2"
+                  type="submit"
+                  form="input-form"
+                  id="submit-btn"
+                >
+                  Add
+                </button>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="sidebarRight grid text-slate-300 w-64">
-          <div
-            class="balance p-5 border border-slate-500 rounded-xl bg-slate-800"
-          >
-            <h1 class="mb-5 font-extrabold text-xl">Gesamtbilanz</h1>
-            <div class="flex-col">
-              <div class="flex justify-between">
-                <p>Einnahmen:</p>
-                <span class="text-right">2000,00 €</span>
-              </div>
-              <div class="flex justify-between">
-                <p>Ausgaben:</p>
-                <span class="text-right border-b">1000,00 €</span>
-              </div>
-              <div class="flex justify-between mt-2">
-                <p class="font-extrabold">Bilanz:</p>
-                <span class="font-extrabold text-right text-green-500"
-                  >1000,00 €</span
-                >
+          <div class="sidebarRight flex flex-col text-slate-300 w-64">
+            <div
+              class="balance p-5 border border-slate-500 rounded-xl bg-slate-800"
+            >
+              <h1 class="mb-5 font-extrabold text-xl">Gesamtbilanz</h1>
+              <div class="flex-col">
+                <div class="flex justify-between">
+                  <p>Einnahmen:</p>
+                  <span class="text-right">2000,00 €</span>
+                </div>
+                <div class="flex justify-between">
+                  <p>Ausgaben:</p>
+                  <span class="text-right border-b">1000,00 €</span>
+                </div>
+                <div class="flex justify-between mt-2">
+                  <p class="font-extrabold">Bilanz:</p>
+                  <span class="font-extrabold text-right text-green-500"
+                    >1000,00 €</span
+                  >
+                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section class="grid justify-center w-3/5">
-        <!-- Sidebar left -->
-        <!-- <div class="sidebarLeft grid justify-center">
-        <button
-          type="button"
-          class="h-12 m-10 p-3 bg-sky-500 hover:bg-sky-400 text-gray-900 rounded-xl hover:scale-105"
-          id="newEntryButton"
-        >
-          Neuer Eintrag
-        </button>
-      </div> -->
-
-        <!-- List of Entries -->
-        <div class="entriesContainer ml-10 mr-10">
-          <!-- List of Month -->
+      <section class="flex justify-center ml-10 mr-10">
+        <div class="container-lists flex flex-col w-5/12">
+          <!-- <h1 class="pl-8 text-gray-300 text-2xl font-bold">September 2023</h1> -->
           <div
-            class="monthContainer space-y-4 mt-10 p-5 bg-slate-800 border border-slate-500 rounded-xl"
+            class="monthContainer mt-5 mb-10 p-5 bg-slate-800 border border-slate-500 rounded-xl"
           >
-            <!-- <header class="monthHeader flex justify-between">
-            <h1 class="month font-extrabold text-xl text-slate-300">
-              März 2023
-            </h1>
-            <span class="text-right font-medium text-xl text-green-500"
-              >1781,55 €</span
-            >
-          </header> -->
-
-            <ul class="liste space-y-4">
-              <li
-                class="ausgabe grid grid-cols-12 bg-slate-600 text-gray-300 border border-slate-900 rounded-lg"
+            <ul class="monthList space-y-3">
+              <!-- <li
+                class="ausgabe flex bg-slate-600 text-gray-300 border border-slate-900 rounded-lg"
               >
                 <span
-                  class="eingabeDatum p-2 col-span-2 text-center border-r border-slate-700"
+                  class="input p-2 w-2/12 text-center border-r border-slate-700"
+                >
+                  01.03.2023
+                </span>
+                <span class="eingabeTitel p-2 w-7/12 pl-5 text-left">
+                  Gehalt
+                </span>
+                <span
+                  class="eingabeBetrag p-2 w-3/12 text-right text-green-500 font-medium border-r border-slate-700"
+                >
+                  3725,47 €
+                </span>
+                <button class="eintragLöschen p-2 text-center text-gray-900">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </li>
+
+              <li
+                class="ausgabe flex bg-slate-600 text-gray-300 border border-slate-900 rounded-lg"
+              >
+                <span
+                  class="eingabeDatum p-2 w-2/12 text-center border-r border-slate-700"
                 >
                   07.03.2023
                 </span>
-                <span
-                  class="eingabeTitel p-2 pl-5 col-start-3 col-span-7 text-left"
-                >
+                <span class="eingabeTitel p-2 w-7/12 pl-5 text-left">
                   Einkauf
                 </span>
                 <span
-                  class="eingabeBetrag p-2 pr-5 col-start-10 col-span-2 text-right text-red-500 font-medium border-r border-slate-700"
+                  class="eingabeBetrag p-2 w-3/12 text-right text-red-500 font-medium border-r border-slate-700"
                 >
                   -143,44 €
                 </span>
-                <button
-                  class="eintragLöschen p-2 col-start-12 col-span-1 text-center text-gray-900"
+                <button class="eintragLöschen p-2 text-center text-gray-900">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </li>
+
+              <li
+                class="listElement flex bg-slate-600 text-gray-300 border border-slate-900 rounded-lg"
+              >
+                <span
+                  class="elementDate p-2 w-2/12 text-center border-r border-slate-700"
                 >
+                  21.05.2023
+                </span>
+                <span class="elementTitle p-2 w-7/12 pl-5 text-left">
+                  Urlaub
+                </span>
+                <span
+                  class="elementAmount p-2 w-3/12 text-right text-red-500 font-medium border-r border-slate-700"
+                >
+                  -1973,57 €
+                </span>
+                <button class="removeElement p-2 text-center text-gray-900">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </li> -->
+            </ul>
+          </div>
+
+          <!-- <h1 class="pl-8 text-gray-300 text-2xl font-bold">August 2023</h1>
+          <div
+            class="monthContainer mt-5 mb-10 p-5 bg-slate-800 border border-slate-500 rounded-xl"
+          >
+            <ul class="monthList space-y-3">
+              <li
+                class="ausgabe flex bg-slate-600 text-gray-300 border border-slate-900 rounded-lg"
+              >
+                <span
+                  class="eingabeDatum p-2 w-2/12 text-center border-r border-slate-700"
+                >
+                  01.03.2023
+                </span>
+                <span class="eingabeTitel p-2 w-7/12 pl-5 text-left">
+                  Gehalt
+                </span>
+                <span
+                  class="eingabeBetrag p-2 w-3/12 text-right text-green-500 font-medium border-r border-slate-700"
+                >
+                  3725,47 €
+                </span>
+                <button class="eintragLöschen p-2 text-center text-gray-900">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </li>
+
+              <li
+                class="ausgabe flex bg-slate-600 text-gray-300 border border-slate-900 rounded-lg"
+              >
+                <span
+                  class="eingabeDatum p-2 w-2/12 text-center border-r border-slate-700"
+                >
+                  07.03.2023
+                </span>
+                <span class="eingabeTitel p-2 w-7/12 pl-5 text-left">
+                  Einkauf
+                </span>
+                <span
+                  class="eingabeBetrag p-2 w-3/12 text-right text-red-500 font-medium border-r border-slate-700"
+                >
+                  -143,44 €
+                </span>
+                <button class="eintragLöschen p-2 text-center text-gray-900">
+                  <i class="fa-solid fa-trash"></i>
+                </button>
+              </li>
+
+              <li
+                class="ausgabe flex bg-slate-600 text-gray-300 border border-slate-900 rounded-lg"
+              >
+                <span
+                  class="eingabeDatum p-2 w-2/12 text-center border-r border-slate-700"
+                >
+                  21.05.2023
+                </span>
+                <span class="eingabeTitel p-2 w-7/12 pl-5 text-left">
+                  Urlaub
+                </span>
+                <span
+                  class="eingabeBetrag p-2 w-3/12 text-right text-red-500 font-medium border-r border-slate-700"
+                >
+                  -1973,57 €
+                </span>
+                <button class="eintragLöschen p-2 text-center text-gray-900">
                   <i class="fa-solid fa-trash"></i>
                 </button>
               </li>
             </ul>
-
-            <!-- <div
-            class="newEntryContainer grid grid-cols-12 bg-slate-600 text-gray-300 rounded-lg"
-          >
-            <div
-              class="inputDate p-2 col-span-2 text-center border-r border-slate-700"
-            >
-              15.03.2023
-            </div>
-            <div class="inputTitle p-2 pl-5 col-start-3 col-span-7 text-left">
-              Tanken
-            </div>
-            <div
-              class="inputAmount p-2 pr-5 col-start-10 col-span-2 text-right text-red-500 font-medium border-r border-slate-700"
-            >
-              -75,01 €
-            </div>
-            <div
-              class="removeEntry p-2 col-start-12 col-span-1 text-center text-gray-900"
-            >
-              <i class="fa-solid fa-trash"></i>
-            </div>
-          </div>
-          <div
-            class="newEntryContainer grid grid-cols-12 bg-slate-600 text-gray-300 rounded-lg"
-          >
-            <div
-              class="inputDate p-2 col-span-2 text-center border-r border-slate-700"
-            >
-              30.03.2023
-            </div>
-            <div class="inputTitle p-2 pl-5 col-start-3 col-span-7 text-left">
-              Gehalt
-            </div>
-            <div
-              class="inputAmount p-2 pr-5 col-start-10 col-span-2 text-right text-green-500 font-medium border-r border-slate-700"
-            >
-              2000 €
-            </div>
-            <div
-              class="removeEntry p-2 col-start-12 col-span-1 text-center text-gray-900"
-            >
-              <i class="fa-solid fa-trash"></i>
-            </div>
-          </div>
-          --></div>
+          </div> -->
         </div>
-
-        <!-- Sidebar right -->
       </section>
     </main>
-    <!-- <section>
-      <form
-        id="eingabeformular"
-        action="#"
-        method="get"
-      ></form>
-      <div class="eingabeformular-zeile">
-        <h1>Neue Einnahme / Ausgabe hinzufügen</h1>
-      </div>
-      <div class="eingabeformular-zeile">
-        <div class="titel-typ-eingabe-gruppe">
-          <label for="titel">Titel</label>
-          <input
-            type="text"
-            id="titel"
-            form="eingabeformular"
-            name="titel"
-            placeholder="z.B. Einkaufen"
-            size="10"
-            title="Titel des Eintrags"
-            data-dashlane-rid="571ace556d6e0de8"
-            data-form-type="title"
-            data-kwimpalastatus="alive"
-            data-kwimpalaid="1695584475757-0"
-          />
-          <input
-            type="radio"
-            id="einnahme"
-            name="typ"
-            value="einnahme"
-            form="eingabeformular"
-            title="Typ des Eintrags"
-          />
-          <label
-            for="einnahme"
-            title="Typ des Eintrags"
-            >Einnahme</label
-          >
-          <input
-            type="radio"
-            id="ausgabe"
-            name="typ"
-            value="ausgabe"
-            form="eingabeformular"
-            title="Typ des Eintrags"
-            checked=""
-          />
-          <label
-            for="ausgabe"
-            title="Typ des Eintrags"
-            >Ausgabe</label
-          >
-        </div>
-      </div>
-      <div class="eingabeformular-zeile">
-        <div class="betrag-datum-eingabe-gruppe">
-          <label for="betrag">Betrag</label>
-          <input
-            type="number"
-            id="betrag"
-            name="betrag"
-            form="eingabeformular"
-            placeholder="z.B. 10,42"
-            size="10"
-            step="0.01"
-            min="0.01"
-            title="Betrag des Eintrags (max. zwei Nachkommastellen, kein €-Zeichen)"
-            data-dashlane-rid="fb7f3dbf8009a4d8"
-            data-form-type="other"
-          />
-          <label for="datum">Datum</label>
-          <input
-            type="date"
-            id="datum"
-            name="datum"
-            form="eingabeformular"
-            size="10"
-            title="Datum des Eintrags"
-            data-dashlane-rid="18baf53ef5a182d1"
-            data-form-type="date"
-          />
-        </div>
-      </div>
-      <div class="eingabeformular-zeile">
-        <button
-          class="standard"
-          type="submit"
-          form="eingabeformular"
-          data-dashlane-label="true"
-          data-dashlane-rid="781063c6d0f900ff"
-          data-form-type="action"
-        >
-          Hinzufügen
-        </button>
-      </div>
-    </section> -->
 
-    <footer
-      class="footer flex justify-center absolute bottom-0 left-0 w-full p-2 text-slate-300"
-    >
+    <footer class="footer flex justify-center w-full p-2 text-slate-300">
       <p class="font-bold">
         <span class="pr-2 font-normal">
           Copyright ©
@@ -357,6 +322,6 @@
       ></a>
     </footer>
 
-    <script src="app.js"></script>
+    <script src="./src/js/app.js"></script>
   </body>
 </html>
