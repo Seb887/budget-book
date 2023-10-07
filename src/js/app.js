@@ -1,42 +1,21 @@
 'use strict';
 
-///////////////
-// TEST AREA //
-///////////////
-
-// console.log('TEST: Hello World');
-
-// const newDate = new Date(Date.UTC(2012, 11, 20, 3, 0, 0)).toLocaleDateString(
-//   'de-DE',
-//   {
-//     year: 'numeric',
-//     month: '2-digit',
-//     day: '2-digit',
-//   }
-// );
-// console.log(newDate);
-
-// const modal = require('Modal');
-
-// -----------------------------------------------------------
-
 // --- VARIABLES ---
 
 const list = document.querySelector('.list');
+const listContainer = document.querySelector('.list-container');
+const noEntriesMessage = document.querySelector('#no-entries-message');
 
 const inputDate = document.querySelector('#input-date');
 const inputTitle = document.querySelector('#input-title');
 const inputAmount = document.querySelector('#input-amount');
 const inputTyp = document.querySelectorAll('#input-typ');
 const submitBtn = document.querySelector('#submit-btn');
-const timestamp = Date.now();
-
-let entries = [];
 
 // --- FUNCTIONS ---
 
 // Create HTML for list element
-const createNewListItem = (obj) => {
+let createNewListItem = (obj) => {
   const listItem = document.createElement('li');
   // obj.typ === 'ausgabe'
   //   ? listItem.classList.add('ausgabe')
@@ -49,7 +28,7 @@ const createNewListItem = (obj) => {
     'border-slate-900',
     'rounded-lg'
   );
-  listItem.setAttribute('data-timestamp', timestamp);
+  listItem.id = obj.timestamp;
 
   const date = document.createElement('span');
   date.classList.add(
@@ -77,26 +56,14 @@ const createNewListItem = (obj) => {
   amount.classList.add(
     'elementAmount',
     'p-2',
-    'w-3/12',
+    'w-4/12',
     'text-right',
     'text-red-500',
     'font-medium',
     'border-r',
     'border-slate-700'
   );
-  // if (obj.typ === 'ausgabe') {
-  //   amount.classList.add('text-red-500');
-  //   amount.textContent = `-${obj.amount.toFixed(2).replace(/\./, ',')} €`;
-  // } else {
-  //   amount.classList.add('text-green-500');
-  //   amount.textContent = `${obj.amount.toFixed(2).replace(/\./, ',')} €`;
-  // }
   amount.textContent = amount.textContent = `-${obj.amount} €`;
-
-  // const removeElement = document.createElement('button');
-  // removeElement.classList.add(
-  // 'removeElement', 'p-2', 'text-center', 'text-gray-900';
-  // );
 
   const removeIcon = document.createElement('i');
   removeIcon.classList.add(
@@ -119,10 +86,21 @@ const createNewListItem = (obj) => {
   return listItem;
 };
 
+function addNewEntry() {
+  // Check inputs for completion
+  if (!(inputTitle.value && inputDate.value && inputAmount.value)) {
+    alert('Please fill the form!');
+    return;
+  } else {
+    addEntryToLocalStorage();
+  }
+}
+
 function addEntryToLocalStorage() {
   const entriesFromStorage = getEntriesFromLocalStorage();
+  const timestamp = Date.now();
 
-  const newObj = {
+  let newObj = {
     title: inputTitle.value,
     date: new Date(inputDate.value).toLocaleDateString('de-DE', {
       year: 'numeric',
@@ -156,12 +134,13 @@ function removeFromStorage(e) {
   let entriesFromStorage = getEntriesFromLocalStorage();
 
   if (e.target.classList.contains('removeElement')) {
-    let removeItemTitle = e.target.parentElement.children[1].textContent;
-    // let removeItemTimestamp = e.target.parentElement.timestamp;
+    // let removeItemTitle = e.target.parentElement.children[1].textContent;
+    let removeItemId = e.target.parentElement.id;
+
+    // console.log(removeItemTimestamp);
 
     entriesFromStorage = entriesFromStorage.filter(
-      (item) => removeItemTitle != item.title
-      // removeItemTimestamp != item.timestamp
+      (item) => removeItemId != item.timestamp
     );
 
     localStorage.setItem('entries', JSON.stringify(entriesFromStorage));
@@ -181,22 +160,47 @@ function clearInputs() {
   inputAmount.value = '';
 }
 
+function sortEntires(arr) {
+  arr.sort((a, b) => {
+    if (a.date > b.date) {
+      return -1;
+    } else if (a.date < b.date) {
+      return 1;
+    } else {
+      if (a.timestamp > b.timestamp) {
+        return -1;
+      } else {
+        return 1;
+      }
+    }
+  });
+}
+
 // HTML aktualisieren
 const refreshHTML = () => {
   clearList();
   clearInputs();
 
-  // if (entries.length === 0) {
-  //   monthList.style.display = 'none';
-  // }
+  // Get from local storage and create list HTML
+  let entriesFromStorage = getEntriesFromLocalStorage();
 
-  const entriesFromStorage = getEntriesFromLocalStorage();
+  // Sort entries
+  sortEntires(entriesFromStorage);
 
   entriesFromStorage.forEach((e) => createNewListItem(e));
+
+  // Control list area
+  if (entriesFromStorage.length === 0) {
+    listContainer.style.display = 'none';
+    noEntriesMessage.style.display = 'flex';
+  } else {
+    listContainer.style.display = 'block';
+    noEntriesMessage.style.display = 'none';
+  }
 };
 
 // EVENTS
-submitBtn.addEventListener('click', addEntryToLocalStorage);
+submitBtn.addEventListener('click', addNewEntry);
 list.addEventListener('click', removeFromStorage);
 
 window.onload = refreshHTML();
@@ -206,19 +210,4 @@ window.onload = refreshHTML();
 /////////////////////////
 
 // // Listenelemente sortieren
-// const eintraegeSort = () => {
-//   eintraege.sort((a, b) => {
-//     if (a.datum > b.datum) {
-//       return -1;
-//     } else if (a.datum < b.datum) {
-//       return 1;
-//     } else {
-//       if (a.timestamp > b.timestamp) {
-//         return -1;
-//       } else {
-//         return 1;
-//       }
-//     }
-//   });
-//   return eintraege;
-// };
+//
