@@ -2,7 +2,8 @@
 
 // --- VARIABLES ---
 
-const list = document.querySelector('.list');
+const listsSection = document.querySelector('.lists-section');
+const monthList = document.querySelector('.month-list');
 const listContainer = document.querySelector('.list-container');
 const noEntriesMessage = document.querySelector('#no-entries-message');
 
@@ -12,10 +13,152 @@ const inputAmount = document.querySelector('#input-amount');
 const inputTyp = document.querySelectorAll('#input-typ');
 const submitBtn = document.querySelector('#submit-btn');
 
+// --- CLASSES ---
+
+class Eintrag {
+  constructor(title, date, typ, amount, timestamp) {
+    this._title = title;
+    this._date = date;
+    this._typ = typ;
+    this._amount = amount;
+    this._timestamp = Date.now();
+  }
+
+  title() {
+    return this._title;
+  }
+
+  date() {
+    return this._date;
+  }
+
+  typ() {
+    return this._typ;
+  }
+
+  amount() {
+    return this._amount;
+  }
+
+  timestamp() {
+    return this._timestamp;
+  }
+
+  _createHTML() {
+    const listItem = document.createElement('li');
+    // obj.typ === 'ausgabe'
+    //   ? listItem.classList.add('ausgabe')
+    //   : listItem.classList.add('einnahme');
+    listItem.classList.add(
+      'flex',
+      'bg-slate-600',
+      'text-gray-300',
+      'border',
+      'border-slate-900',
+      'rounded-lg'
+    );
+    listItem.id = this._timestamp;
+
+    const date = document.createElement('span');
+    date.classList.add(
+      'p-2',
+      'w-auto',
+      'text-center',
+      'border-r',
+      'border-slate-700'
+    );
+    date.id = 'elementDate';
+    date.textContent = obj.date;
+
+    const title = document.createElement('span');
+    title.classList.add(
+      'elementTitle',
+      'p-2',
+      'w-8/12',
+      'min-w-[250px]',
+      'pl-2',
+      'text-left',
+      'font-bold'
+    );
+    title.textContent = obj.title;
+
+    const amount = document.createElement('span');
+    amount.classList.add(
+      'elementAmount',
+      'p-2',
+      'w-5/12',
+      'min-w-[120px]',
+      'text-right',
+      'text-red-500',
+      'font-medium',
+      'border-r',
+      'border-slate-700'
+    );
+    amount.textContent = amount.textContent = `-${obj.amount} €`;
+
+    const removeIcon = document.createElement('i');
+    removeIcon.classList.add(
+      'fa-solid',
+      'fa-trash',
+      'removeElement',
+      'flex',
+      'items-center',
+      'p-2',
+      'text-center',
+      'text-gray-900'
+    );
+
+    listItem.appendChild(date);
+    listItem.appendChild(title);
+    listItem.appendChild(amount);
+    listItem.appendChild(removeIcon);
+    monthList.appendChild(listItem);
+
+    return listItem;
+  }
+}
+
 // --- FUNCTIONS ---
 
+// Create HTML for article (title, month list)
+// function createNewArticle(month, year) {
+//   const article = document.createElement('article');
+//   article.classList.add(
+//     'list-container',
+//     'p-5',
+//     'bg-slate-800',
+//     'border',
+//     'border-slate-500',
+//     'rounded-xl',
+//     'w-8/12',
+//     'min-w-min',
+//     'h-min'
+//   );
+
+//   const headerOne = document.createElement('h1');
+//   headerOne.classList.add(
+//     'list-title',
+//     'pl-1',
+//     'pb-5',
+//     'text-gray-300',
+//     'text-2xl',
+//     'font-bold'
+//   );
+//   headerOne.textContent = 'Oktober 2023';
+
+//   const ulElement = document.createElement('ul');
+//   ulElement.classList.add('month-list', 'space-y-3');
+
+//   article.appendChild(headerOne);
+//   article.appendChild(ulElement);
+//   listsSection.appendChild(article);
+
+//   let entriesFromStorage = getEntriesFromLocalStorage();
+//   entriesFromStorage.forEach((e) => createNewListItem(e));
+// }
+
 // Create HTML for list element
-let createNewListItem = (obj) => {
+function createNewListItem(obj) {
   const listItem = document.createElement('li');
   // obj.typ === 'ausgabe'
   //   ? listItem.classList.add('ausgabe')
@@ -45,7 +188,8 @@ let createNewListItem = (obj) => {
   title.classList.add(
     'elementTitle',
     'p-2',
-    'w-7/12',
+    'w-8/12',
+    'min-w-[250px]',
     'pl-2',
     'text-left',
     'font-bold'
@@ -56,7 +200,8 @@ let createNewListItem = (obj) => {
   amount.classList.add(
     'elementAmount',
     'p-2',
-    'w-4/12',
+    'w-5/12',
+    'min-w-[120px]',
     'text-right',
     'text-red-500',
     'font-medium',
@@ -81,10 +226,10 @@ let createNewListItem = (obj) => {
   listItem.appendChild(title);
   listItem.appendChild(amount);
   listItem.appendChild(removeIcon);
-  list.appendChild(listItem);
+  monthList.appendChild(listItem);
 
   return listItem;
-};
+}
 
 function addNewEntry() {
   // Check inputs for completion
@@ -134,10 +279,8 @@ function removeFromStorage(e) {
   let entriesFromStorage = getEntriesFromLocalStorage();
 
   if (e.target.classList.contains('removeElement')) {
-    // let removeItemTitle = e.target.parentElement.children[1].textContent;
-    let removeItemId = e.target.parentElement.id;
-
-    // console.log(removeItemTimestamp);
+    const listElement = e.target.parentElement;
+    let removeItemId = listElement.id;
 
     entriesFromStorage = entriesFromStorage.filter(
       (item) => removeItemId != item.timestamp
@@ -150,8 +293,8 @@ function removeFromStorage(e) {
 }
 
 function clearList() {
-  while (list.firstChild) {
-    list.removeChild(list.firstChild);
+  while (monthList.firstChild) {
+    monthList.removeChild(monthList.firstChild);
   }
 }
 function clearInputs() {
@@ -160,7 +303,7 @@ function clearInputs() {
   inputAmount.value = '';
 }
 
-function sortEntires(arr) {
+function sortByDate(arr) {
   arr.sort((a, b) => {
     if (a.date > b.date) {
       return -1;
@@ -176,7 +319,12 @@ function sortEntires(arr) {
   });
 }
 
+// function sortByMonthYear(arr) {
+//   let entriesFromStorage = getEntriesFromLocalStorage();
+// }
+
 // HTML aktualisieren
+
 const refreshHTML = () => {
   clearList();
   clearInputs();
@@ -185,7 +333,7 @@ const refreshHTML = () => {
   let entriesFromStorage = getEntriesFromLocalStorage();
 
   // Sort entries
-  sortEntires(entriesFromStorage);
+  sortByDate(entriesFromStorage);
 
   entriesFromStorage.forEach((e) => createNewListItem(e));
 
@@ -201,7 +349,7 @@ const refreshHTML = () => {
 
 // EVENTS
 submitBtn.addEventListener('click', addNewEntry);
-list.addEventListener('click', removeFromStorage);
+listContainer.addEventListener('click', removeFromStorage);
 
 window.onload = refreshHTML();
 
