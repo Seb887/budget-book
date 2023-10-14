@@ -4,6 +4,7 @@
 
 const listsSection = document.querySelector('.lists-section');
 const monthList = document.querySelector('.month-list');
+const listTitle = document.querySelector('.list-title');
 const listContainer = document.querySelector('.list-container');
 const noEntriesMessage = document.querySelector('#no-entries-message');
 
@@ -13,115 +14,10 @@ const inputAmount = document.querySelector('#input-amount');
 const inputTyp = document.querySelectorAll('#input-typ');
 const submitBtn = document.querySelector('#submit-btn');
 
-// --- CLASSES ---
-
-class Eintrag {
-  constructor(title, date, typ, amount, timestamp) {
-    this._title = title;
-    this._date = date;
-    this._typ = typ;
-    this._amount = amount;
-    this._timestamp = Date.now();
-  }
-
-  title() {
-    return this._title;
-  }
-
-  date() {
-    return this._date;
-  }
-
-  typ() {
-    return this._typ;
-  }
-
-  amount() {
-    return this._amount;
-  }
-
-  timestamp() {
-    return this._timestamp;
-  }
-
-  _createHTML() {
-    const listItem = document.createElement('li');
-    // obj.typ === 'ausgabe'
-    //   ? listItem.classList.add('ausgabe')
-    //   : listItem.classList.add('einnahme');
-    listItem.classList.add(
-      'flex',
-      'bg-slate-600',
-      'text-gray-300',
-      'border',
-      'border-slate-900',
-      'rounded-lg'
-    );
-    listItem.id = this._timestamp;
-
-    const date = document.createElement('span');
-    date.classList.add(
-      'p-2',
-      'w-auto',
-      'text-center',
-      'border-r',
-      'border-slate-700'
-    );
-    date.id = 'elementDate';
-    date.textContent = obj.date;
-
-    const title = document.createElement('span');
-    title.classList.add(
-      'elementTitle',
-      'p-2',
-      'w-8/12',
-      'min-w-[250px]',
-      'pl-2',
-      'text-left',
-      'font-bold'
-    );
-    title.textContent = obj.title;
-
-    const amount = document.createElement('span');
-    amount.classList.add(
-      'elementAmount',
-      'p-2',
-      'w-5/12',
-      'min-w-[120px]',
-      'text-right',
-      'text-red-500',
-      'font-medium',
-      'border-r',
-      'border-slate-700'
-    );
-    amount.textContent = amount.textContent = `-${obj.amount} €`;
-
-    const removeIcon = document.createElement('i');
-    removeIcon.classList.add(
-      'fa-solid',
-      'fa-trash',
-      'removeElement',
-      'flex',
-      'items-center',
-      'p-2',
-      'text-center',
-      'text-gray-900'
-    );
-
-    listItem.appendChild(date);
-    listItem.appendChild(title);
-    listItem.appendChild(amount);
-    listItem.appendChild(removeIcon);
-    monthList.appendChild(listItem);
-
-    return listItem;
-  }
-}
-
 // --- FUNCTIONS ---
 
 // Create HTML for article (title, month list)
-// function createNewArticle(month, year) {
+// function createNewArticleHTML(month, year) {
 //   const article = document.createElement('article');
 //   article.classList.add(
 //     'list-container',
@@ -158,7 +54,7 @@ class Eintrag {
 // }
 
 // Create HTML for list element
-function createNewListItem(obj) {
+function createNewListItemHTML(obj) {
   const listItem = document.createElement('li');
   // obj.typ === 'ausgabe'
   //   ? listItem.classList.add('ausgabe')
@@ -182,7 +78,11 @@ function createNewListItem(obj) {
     'border-slate-700'
   );
   date.id = 'elementDate';
-  date.textContent = obj.date;
+  date.textContent = new Date(obj.date).toLocaleDateString('de-DE', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  });
 
   const title = document.createElement('span');
   title.classList.add(
@@ -237,30 +137,31 @@ function addNewEntry() {
     alert('Please fill the form!');
     return;
   } else {
-    addEntryToLocalStorage();
+    createNewEntry();
   }
 }
 
-function addEntryToLocalStorage() {
-  const entriesFromStorage = getEntriesFromLocalStorage();
-  const timestamp = Date.now();
-
+function createNewEntry() {
   let newObj = {
-    title: inputTitle.value,
-    date: new Date(inputDate.value).toLocaleDateString('de-DE', {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    }),
+    // title: inputTitle.value,
+    title: 'Test',
+    date: new Date(inputDate.value),
+    typ: 'expense',
     amount: parseFloat(inputAmount.value).toFixed(2).replace(/\./, ','),
-    timestamp: timestamp,
+    timestamp: Date.now(),
   };
 
-  entriesFromStorage.push(newObj);
+  addEntryToLocalStorage(newObj);
+}
+
+function addEntryToLocalStorage(obj) {
+  const entriesFromStorage = getEntriesFromLocalStorage();
+
+  entriesFromStorage.push(obj);
   localStorage.setItem('entries', JSON.stringify(entriesFromStorage));
   console.log(entriesFromStorage);
 
-  refreshHTML();
+  UIController();
 }
 
 function getEntriesFromLocalStorage() {
@@ -289,7 +190,7 @@ function removeFromStorage(e) {
     localStorage.setItem('entries', JSON.stringify(entriesFromStorage));
   }
 
-  refreshHTML();
+  UIController();
 }
 
 function clearList() {
@@ -319,23 +220,54 @@ function sortByDate(arr) {
   });
 }
 
-// function sortByMonthYear(arr) {
-//   let entriesFromStorage = getEntriesFromLocalStorage();
-// }
+function sortByMonthYear(arr) {
+  let dateNow = new Date();
+  let currentMonth = dateNow.getMonth();
+  let months = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
+  ];
+  let currentMonthName = months[currentMonth];
+  let currentYear = dateNow.getFullYear();
+
+  listTitle.textContent = `${currentMonthName} ${currentYear}`;
+
+  function callbackFunction(item) {
+    let itemDate = new Date(item.date);
+    let dateMonth = itemDate.getMonth();
+    let dateYear = itemDate.getFullYear();
+    if (dateMonth === currentMonth && dateYear === currentYear) {
+      return item;
+    }
+  }
+
+  let filteredEntriesFromStorage = arr.filter((item) => callbackFunction(item));
+
+  return filteredEntriesFromStorage;
+}
 
 // HTML aktualisieren
 
-const refreshHTML = () => {
+const UIController = () => {
   clearList();
   clearInputs();
 
   // Get from local storage and create list HTML
   let entriesFromStorage = getEntriesFromLocalStorage();
 
-  // Sort entries
+  // Sort entries by date
   sortByDate(entriesFromStorage);
-
-  entriesFromStorage.forEach((e) => createNewListItem(e));
+  sortByMonthYear(entriesFromStorage).forEach((e) => createNewListItemHTML(e));
 
   // Control list area
   if (entriesFromStorage.length === 0) {
@@ -348,14 +280,37 @@ const refreshHTML = () => {
 };
 
 // EVENTS
-submitBtn.addEventListener('click', addNewEntry);
+submitBtn.addEventListener('click', createNewEntry);
 listContainer.addEventListener('click', removeFromStorage);
 
-window.onload = refreshHTML();
+window.onload = UIController();
 
-/////////////////////////
-// FÜR SPÄTER AUFHEBEN //
-/////////////////////////
+////////////////
+// TEST AREA //
+///////////////
 
-// // Listenelemente sortieren
-//
+// let now = new Date();
+// let currentMonth = now.getMonth();
+// let months = [
+//   'January',
+//   'February',
+//   'March',
+//   'April',
+//   'May',
+//   'June',
+//   'July',
+//   'August',
+//   'September',
+//   'October',
+//   'November',
+//   'December',
+// ];
+// let currentMonthName = months[currentMonth];
+// let currentYear = now.getFullYear();
+
+// console.log(now);
+// console.log(currentMonth);
+// console.log(currentMonthName);
+// console.log(currentYear);
+
+// console.log('TYPE: ', typeof new Date());
