@@ -7,6 +7,8 @@ const monthList = document.querySelector('.month-list');
 const listTitle = document.querySelector('.list-title');
 const listContainer = document.querySelector('.list-container');
 const noEntriesMessage = document.querySelector('#no-entries-message');
+const monthsDropdown = document.querySelector('#months-dropdown');
+const yearsDropdown = document.querySelector('#years-dropdown');
 
 const inputDate = document.querySelector('#input-date');
 const inputTitle = document.querySelector('#input-title');
@@ -237,21 +239,32 @@ function sortByMonthYear(arr) {
     'November',
     'December',
   ];
-  let currentMonthName = months[currentMonth];
-  let currentYear = dateNow.getFullYear();
 
-  listTitle.textContent = `${currentMonthName} ${currentYear}`;
+  // TODO: Dropdown default Werte auf Date.now() setzen
+
+  let currentMonthName = monthsDropdown.value;
+  let currentYear = parseFloat(yearsDropdown.value);
+
+  console.log('currentMonthName: ', currentMonthName);
+  console.log('currentYear: ', currentYear);
 
   function callbackFunction(item) {
     let itemDate = new Date(item.date);
-    let dateMonth = itemDate.getMonth();
+    let dateMonth = months[itemDate.getMonth()];
     let dateYear = itemDate.getFullYear();
-    if (dateMonth === currentMonth && dateYear === currentYear) {
+    if (dateMonth === currentMonthName && dateYear === currentYear) {
+      console.log('true');
       return item;
     }
   }
 
   let filteredEntriesFromStorage = arr.filter((item) => callbackFunction(item));
+
+  if (filteredEntriesFromStorage.length === 0) {
+    noEntriesMessage.style.display = 'flex';
+  } else {
+    noEntriesMessage.style.display = 'none';
+  }
 
   return filteredEntriesFromStorage;
 }
@@ -270,20 +283,23 @@ const UIController = () => {
   sortByMonthYear(entriesFromStorage).forEach((e) => createNewListItemHTML(e));
 
   // Control list area
-  if (entriesFromStorage.length === 0) {
-    listContainer.style.display = 'none';
-    noEntriesMessage.style.display = 'flex';
-  } else {
-    listContainer.style.display = 'block';
-    noEntriesMessage.style.display = 'none';
-  }
+  // if (entriesFromStorage.length === 0) {
+  //   listContainer.style.display = 'none';
+  //   noEntriesMessage.style.display = 'flex';
+  // } else {
+  //   listContainer.style.display = 'block';
+  //   noEntriesMessage.style.display = 'none';
+  // }
 };
 
 // EVENTS
+window.addEventListener('load', UIController);
+
+// FIXME: submitBtn setzt Dropdown Menü Einstellung zurück -> sollte aktuelle Werte behalten
 submitBtn.addEventListener('click', createNewEntry);
 listContainer.addEventListener('click', removeFromStorage);
-
-window.onload = UIController();
+monthsDropdown.addEventListener('change', UIController);
+yearsDropdown.addEventListener('change', UIController);
 
 ////////////////
 // TEST AREA //

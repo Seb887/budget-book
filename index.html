@@ -87,7 +87,7 @@
           <!-- Inputs -->
           <div class="inputs flex flex-col gap-3 w-full">
             <input
-              class="p-3 pl-3 rounded-sm bg-gray-300 placeholder-gray-500"
+              class="p-3 pl-3 rounded-md bg-gray-300 placeholder-gray-500"
               type="text"
               id="input-title"
               form="input-form"
@@ -97,7 +97,7 @@
               title="Titel des Eintrags"
             />
             <input
-              class="p-3 pl-2 rounded-sm bg-gray-300 placeholder:text-gray-500"
+              class="p-3 pl-2 rounded-md bg-gray-300 placeholder:text-gray-500"
               type="date"
               id="input-date"
               name="date"
@@ -106,7 +106,7 @@
               title="Datum des Eintrags"
             />
             <input
-              class="p-3 pl-3 rounded-sm bg-gray-300 placeholder-gray-500"
+              class="p-3 pl-3 rounded-md bg-gray-300 placeholder-gray-500"
               type="number"
               id="input-amount"
               name="amount"
@@ -135,19 +135,82 @@
         <article
           class="list-container p-5 bg-slate-800 border border-slate-500 rounded-xl w-8/12 min-w-min h-min"
         >
-          <h1 class="list-title pl-1 pb-5 text-gray-300 text-2xl font-bold">
+          <!-- <h1 class="list-title pl-1 pb-5 text-gray-300 text-2xl font-bold">
             Monat Jahr
-          </h1>
+          </h1> -->
+          <div
+            class="time-selection flex mb-10 gap-5 text-xl text-gray-800 font-semibold"
+          >
+            <select
+              name="months"
+              id="months-dropdown"
+              class="p-2 rounded-md bg-gray-300"
+            >
+              <option value="January">January</option>
+              <option value="February">February</option>
+              <option value="March">March</option>
+              <option value="April">April</option>
+              <option value="May">May</option>
+              <option value="June">June</option>
+              <option value="Juli">Juli</option>
+              <option
+                value="August"
+                selected="selected"
+              >
+                August
+              </option>
+              <option value="September">September</option>
+              <option value="October">October</option>
+              <option value="November">November</option>
+              <option value="December">December</option>
+            </select>
+
+            <select
+              name="years"
+              id="years-dropdown"
+              class="p-2 rounded-md bg-gray-300"
+            >
+              <option value="2015">2015</option>
+              <option value="2016">2016</option>
+              <option value="2017">2017</option>
+              <option value="2018">2018</option>
+              <option value="2019">2019</option>
+              <option
+                value="2020"
+                selected="selected"
+              >
+                2020
+              </option>
+              <option value="2021">2021</option>
+              <option value="2022">2022</option>
+              <option value="2023">2023</option>
+              <option value="2024">2024</option>
+              <option value="2025">2025</option>
+              <option value="2026">2026</option>
+              <option value="2027">2027</option>
+              <option value="2028">2028</option>
+              <option value="2029">2029</option>
+              <option value="2030">2030</option>
+            </select>
+          </div>
+
           <ul class="month-list space-y-3"></ul>
+
+          <p
+            class="justify-center text-gray-500 text-xl font-bold"
+            id="no-entries-message"
+          >
+            No entries are here!
+          </p>
         </article>
 
         <!-- If no entry in storage -->
-        <article
+        <!-- <article
           class="flex justify-center items-center h-80"
           id="no-entries-message"
         >
           <p class="text-gray-500 text-2xl font-bold">No entries are here!</p>
-        </article>
+        </article> -->
       </section>
     </main>
 
