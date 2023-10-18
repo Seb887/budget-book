@@ -2,6 +2,7 @@
 
 // --- VARIABLES ---
 
+// DOM variables
 const listsSection = document.querySelector('.lists-section');
 const monthList = document.querySelector('.month-list');
 const listTitle = document.querySelector('.list-title');
@@ -9,12 +10,34 @@ const listContainer = document.querySelector('.list-container');
 const noEntriesMessage = document.querySelector('#no-entries-message');
 const monthsDropdown = document.querySelector('#months-dropdown');
 const yearsDropdown = document.querySelector('#years-dropdown');
+const month = document.querySelectorAll('.month');
+const year = document.querySelectorAll('.year');
 
+// Input variables
 const inputDate = document.querySelector('#input-date');
 const inputTitle = document.querySelector('#input-title');
 const inputAmount = document.querySelector('#input-amount');
 const inputTyp = document.querySelectorAll('#input-typ');
 const submitBtn = document.querySelector('#submit-btn');
+
+// Time variables
+const months = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
+let dateNow = new Date();
+let currentMonthName = months[dateNow.getMonth()];
+let currentYear = dateNow.getFullYear();
 
 // --- FUNCTIONS ---
 
@@ -140,6 +163,7 @@ function addNewEntry() {
     return;
   } else {
     createNewEntry();
+    // defaultSettings();
   }
 }
 
@@ -223,37 +247,20 @@ function sortByDate(arr) {
 }
 
 function sortByMonthYear(arr) {
-  let dateNow = new Date();
-  let currentMonth = dateNow.getMonth();
-  let months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December',
-  ];
+  // currentMonthName = monthsDropdown.value;
+  // currentYear = parseFloat(yearsDropdown.value);
 
-  // TODO: Dropdown default Werte auf Date.now() setzen
-
-  let currentMonthName = monthsDropdown.value;
-  let currentYear = parseFloat(yearsDropdown.value);
-
-  console.log('currentMonthName: ', currentMonthName);
-  console.log('currentYear: ', currentYear);
+  // console.log('currentMonthName: ', currentMonthName);
+  // console.log('currentYear: ', currentYear);
 
   function callbackFunction(item) {
     let itemDate = new Date(item.date);
     let dateMonth = months[itemDate.getMonth()];
     let dateYear = itemDate.getFullYear();
-    if (dateMonth === currentMonthName && dateYear === currentYear) {
-      console.log('true');
+
+    if (currentMonthName === 'All months' && dateYear === currentYear) {
+      return item;
+    } else if (dateMonth === currentMonthName && dateYear === currentYear) {
       return item;
     }
   }
@@ -267,6 +274,67 @@ function sortByMonthYear(arr) {
   }
 
   return filteredEntriesFromStorage;
+}
+
+function defaultSettings() {
+  // currentMonthName = monthsDropdown.value;
+  // currentYear = parseFloat(yearsDropdown.value);
+
+  month.forEach((element) => {
+    if (element.getAttribute('selected')) {
+      element.removeAttribute('selected');
+      console.log('month: ', element);
+    }
+
+    if (element.value === currentMonthName) {
+      element.setAttribute('selected', 'selected');
+    }
+  });
+
+  year.forEach((element) => {
+    if (element.getAttribute('selected')) {
+      element.removeAttribute('selected');
+      console.log('year: ', element);
+    }
+
+    if (element.value === currentYear.toString()) {
+      element.setAttribute('selected', 'selected');
+    }
+  });
+
+  UIController();
+}
+
+function dropdownSettings() {
+  currentMonthName = monthsDropdown.value;
+  currentYear = parseFloat(yearsDropdown.value);
+
+  console.log('dropdownSettings: ', currentMonthName);
+  console.log('dropdownSettings: ', currentYear);
+
+  month.forEach((element) => {
+    if (element.getAttribute('selected')) {
+      element.removeAttribute('selected');
+      console.log('month: ', element);
+    }
+
+    if (element.value === currentMonthName) {
+      element.setAttribute('selected', 'selected');
+    }
+  });
+
+  year.forEach((element) => {
+    if (element.getAttribute('selected')) {
+      element.removeAttribute('selected');
+      console.log('year: ', element);
+    }
+
+    if (element.value === currentYear.toString()) {
+      element.setAttribute('selected', 'selected');
+    }
+  });
+
+  UIController();
 }
 
 // HTML aktualisieren
@@ -293,13 +361,14 @@ const UIController = () => {
 };
 
 // EVENTS
-window.addEventListener('load', UIController);
+window.addEventListener('load', defaultSettings);
 
 // FIXME: submitBtn setzt Dropdown Menü Einstellung zurück -> sollte aktuelle Werte behalten
-submitBtn.addEventListener('click', createNewEntry);
+// FIXME: Verhalte submitBtn prüfen ob es window load durchführt
+submitBtn.addEventListener('click', addNewEntry);
 listContainer.addEventListener('click', removeFromStorage);
-monthsDropdown.addEventListener('change', UIController);
-yearsDropdown.addEventListener('change', UIController);
+monthsDropdown.addEventListener('change', dropdownSettings);
+yearsDropdown.addEventListener('change', dropdownSettings);
 
 ////////////////
 // TEST AREA //
