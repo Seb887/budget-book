@@ -3,7 +3,7 @@
 // --- VARIABLES ---
 
 // DOM variables
-const listsSection = document.querySelector('.lists-section');
+const sectionRight = document.querySelector('.section-right');
 const monthList = document.querySelector('.month-list');
 const listTitle = document.querySelector('.list-title');
 const listContainer = document.querySelector('.list-container');
@@ -19,6 +19,14 @@ const inputTitle = document.querySelector('#input-title');
 const inputAmount = document.querySelector('#input-amount');
 const inputTyp = document.querySelectorAll('#input-typ');
 const submitBtn = document.querySelector('#submit-btn');
+const typeExpense = document.querySelector('#type-expense');
+const typeIncome = document.querySelector('#type-income');
+
+// Balance variables
+const balanceContainer = document.querySelector('.balance-container');
+const balanceExpense = document.querySelector('#balance-expense');
+const balanceIncome = document.querySelector('#balance-income');
+const balanceSummary = document.querySelector('#balance-summary');
 
 // Time variables
 const months = [
@@ -128,12 +136,18 @@ function createNewListItemHTML(obj) {
     'w-5/12',
     'min-w-[120px]',
     'text-right',
-    'text-red-500',
     'font-medium',
     'border-r',
     'border-slate-700'
   );
-  amount.textContent = amount.textContent = `-${obj.amount} €`;
+
+  if (obj.type === 'expense') {
+    amount.classList.add('text-red-500');
+    amount.textContent = `-${obj.amount} €`;
+  } else if (obj.type === 'income') {
+    amount.classList.add('text-green-500');
+    amount.textContent = `+${obj.amount} €`;
+  }
 
   const removeIcon = document.createElement('i');
   removeIcon.classList.add(
@@ -156,6 +170,117 @@ function createNewListItemHTML(obj) {
   return listItem;
 }
 
+function createBalanceHTML() {
+  const container = document.createElement('div');
+  container.classList.add(
+    'balance-container',
+    'flex',
+    'flex-col',
+    'p-5',
+    'pr-10',
+    'min-w-min',
+    'border',
+    'border-r-0',
+    'border-slate-500',
+    'rounded-l-xl',
+    'bg-slate-800',
+    'text-gray-300'
+  );
+
+  const header = document.createElement('h1');
+  header.classList.add('mb-3', 'text-2xl', 'font-bold');
+  header.textContent = 'Balance';
+
+  const innerContainer = document.createElement('div');
+  innerContainer.classList.add(
+    'balance-item-container',
+    'flex',
+    'flex-col',
+    'gap-1'
+  );
+
+  const expenseContainer = document.createElement('div');
+  expenseContainer.classList.add('flex', 'justify-between', 'ml-3');
+  const expenseTitle = document.createElement('span');
+  expenseTitle.textContent = 'Expense';
+  const expenseNum = document.createElement('span');
+  expenseNum.classList.add('text-red-500');
+  expenseNum.id = 'balance-expense';
+  expenseNum.textContent = '0';
+  expenseContainer.appendChild(expenseTitle);
+  expenseContainer.appendChild(expenseNum);
+
+  const incomeContainer = document.createElement('div');
+  incomeContainer.classList.add('flex', 'justify-between', 'ml-3');
+  const incomeTitle = document.createElement('span');
+  incomeTitle.textContent = 'Income';
+  const incomeNum = document.createElement('span');
+  incomeNum.classList.add('text-green-500');
+  incomeNum.id = 'balance-income';
+  incomeNum.textContent = '0';
+  incomeContainer.appendChild(incomeTitle);
+  incomeContainer.appendChild(incomeNum);
+
+  const summaryContainer = document.createElement('div');
+  summaryContainer.classList.add('flex', 'justify-between', 'ml-3');
+  const summaryTitle = document.createElement('span');
+  summaryTitle.textContent = 'Summary';
+  summaryTitle.classList.add('font-semibold');
+  const summaryNum = document.createElement('span');
+  summaryNum.classList.add('font-semibold');
+  summaryNum.id = 'balance-summary';
+  summaryNum.textContent = '0';
+  summaryContainer.appendChild(summaryTitle);
+  summaryContainer.appendChild(summaryNum);
+
+  const line = document.createElement('hr');
+  line.classList.add('ml-3');
+
+  container.appendChild(header);
+  container.appendChild(innerContainer);
+  innerContainer.appendChild(expenseContainer);
+  innerContainer.appendChild(incomeContainer);
+  innerContainer.appendChild(line);
+  innerContainer.appendChild(summaryContainer);
+
+  sectionRight.appendChild(container);
+
+  // <div
+  //         class="balance-container flex flex-col p-5 pr-10 min-w-min border border-r-0 border-slate-500 rounded-l-xl bg-slate-800 text-gray-300"
+  // >
+  //   <h1 class="mb-3 text-2xl font-bold">Balance</h1>
+  //   <div class="balance-item-container flex flex-col gap-1">
+  //     <div class="flex justify-between ml-3">
+  //       <span>Expense</span>
+  //       <span
+  //         class="text-red-500"
+  //         id="balance-expense"
+  //         >5000 €</span
+  //       >
+  //     </div>
+
+  //     <div class="flex justify-between ml-3">
+  //       <span>Income</span>
+  //       <span
+  //         class="text-green-500"
+  //         id="balance-income"
+  //         >1200 €</span
+  //       >
+  //     </div>
+
+  //     <hr class="ml-3" />
+  //     <div class="flex justify-between ml-3">
+  //       <span class="font-semibold">Summary</span>
+  //       <span
+  //         class="font-semibold"
+  //         id="balance-summary"
+  //         >-3800 €</span
+  //       >
+  //     </div>
+  //   </div>
+  // </div>
+}
+
 function addNewEntry() {
   // Check inputs for completion
   if (!(inputTitle.value && inputDate.value && inputAmount.value)) {
@@ -170,14 +295,50 @@ function addNewEntry() {
 function createNewEntry() {
   let newObj = {
     // title: inputTitle.value,
-    title: 'Test',
+    title: inputTitle.value,
     date: new Date(inputDate.value),
-    typ: 'expense',
+    type: getInputType(),
     amount: parseFloat(inputAmount.value).toFixed(2).replace(/\./, ','),
     timestamp: Date.now(),
   };
 
   addEntryToLocalStorage(newObj);
+}
+
+function getInputType() {
+  if (typeExpense.checked) {
+    return 'expense';
+  } else if (typeIncome.checked) {
+    return 'income';
+  }
+}
+
+function updateBalanceBoard() {
+  const entriesFromStorage = getEntriesFromLocalStorage();
+  let expense = 0;
+  let income = 0;
+  let summary = 0;
+
+  entriesFromStorage.forEach((item) => {
+    if (item.type === 'expense') {
+      expense += parseFloat(item.amount);
+    } else if (item.type === 'income') {
+      income += parseFloat(item.amount);
+    }
+  });
+
+  summary = -expense + income;
+  console.log('summary: ', summary);
+
+  if (summary >= 0) {
+    balanceSummary.classList.add('text-green-500');
+  } else {
+    balanceSummary.classList.add('text-red-500');
+  }
+
+  balanceExpense.textContent = `${expense} €`;
+  balanceIncome.textContent = `${income} €`;
+  balanceSummary.textContent = `${summary} €`;
 }
 
 function addEntryToLocalStorage(obj) {
@@ -350,6 +511,9 @@ const UIController = () => {
   sortByDate(entriesFromStorage);
   sortByMonthYear(entriesFromStorage).forEach((e) => createNewListItemHTML(e));
 
+  createBalanceHTML();
+  // updateBalanceBoard();
+
   // Control list area
   // if (entriesFromStorage.length === 0) {
   //   listContainer.style.display = 'none';
@@ -361,7 +525,8 @@ const UIController = () => {
 };
 
 // EVENTS
-window.addEventListener('load', defaultSettings);
+// window.addEventListener('load', defaultSettings);
+defaultSettings();
 
 // FIXME: submitBtn setzt Dropdown Menü Einstellung zurück -> sollte aktuelle Werte behalten
 // FIXME: Verhalte submitBtn prüfen ob es window load durchführt
@@ -399,3 +564,11 @@ yearsDropdown.addEventListener('change', dropdownSettings);
 // console.log(currentYear);
 
 // console.log('TYPE: ', typeof new Date());
+
+// const expense = document.querySelector('#expense');
+// const income = document.querySelector('#income');
+// const rebooking = document.querySelector('#rebooking');
+
+// if (income.checked) {
+//   console.log('checked');
+// }

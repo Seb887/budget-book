@@ -27,7 +27,7 @@
 
     <!-- Main section -->
     <main class="flex min-w-min gap-10">
-      <section class="input-section flex mt-10 min-w-min">
+      <section class="section-left flex flex-col gap-10 mt-10 w-5/12">
         <div
           class="input-container p-5 pl-10 border border-l-0 border-slate-500 rounded-r-xl bg-slate-800"
         >
@@ -38,10 +38,37 @@
           ></form>
 
           <!-- Input typ -->
-          <div class="input-typ flex mb-5">
+          <!-- <div class="input-types flex mb-5">
+            <select
+              name="types"
+              id="months-dropdown"
+              class="p-2 rounded-md bg-gray-300"
+            >
+              <option
+                class="input-option"
+                value="Expense"
+              >
+                Expense
+              </option>
+              <option
+                class="input-option"
+                value="Income"
+              >
+                Income
+              </option>
+              <option
+                class="input-option"
+                value="Rebooking"
+              >
+                Rebooking
+              </option>
+            </select>
+          </div> -->
+
+          <div class="input-types flex mb-5">
             <input
               type="radio"
-              id="expense"
+              id="type-expense"
               name="typ"
               value="expense"
               form="input-form"
@@ -56,7 +83,7 @@
             >
             <input
               type="radio"
-              id="income"
+              id="type-income"
               name="typ"
               value="income"
               form="input-form"
@@ -70,7 +97,7 @@
             >
             <input
               type="radio"
-              id="rebooking"
+              id="type-rebooking"
               name="typ"
               value="rebooking"
               form="input-form"
@@ -131,7 +158,7 @@
         </div>
       </section>
 
-      <section class="lists-section flex justify-center mt-10 mr-10 w-full">
+      <section class="section-middle flex justify-center mt-10 w-full">
         <article
           class="list-container p-5 bg-slate-800 border border-slate-500 rounded-xl w-8/12 min-w-min h-min"
         >
@@ -317,6 +344,43 @@
         >
           <p class="text-gray-500 text-2xl font-bold">No entries are here!</p>
         </article> -->
+      </section>
+
+      <section class="section-right flex flex-col gap-10 mt-10 w-3/12">
+        <!-- <div
+          class="balance-container flex flex-col p-5 pr-10 min-w-min border border-r-0 border-slate-500 rounded-l-xl bg-slate-800 text-gray-300"
+        >
+          <h1 class="mb-3 text-2xl font-bold">Balance</h1>
+          <div class="flex flex-col gap-1">
+            <div class="flex justify-between ml-3">
+              <span>Expense</span>
+              <span
+                class="text-red-500"
+                id="balance-expense"
+                >5000 €</span
+              >
+            </div>
+
+            <div class="flex justify-between ml-3">
+              <span>Income</span>
+              <span
+                class="text-green-500"
+                id="balance-income"
+                >1200 €</span
+              >
+            </div>
+
+            <hr class="ml-3" />
+            <div class="flex justify-between ml-3">
+              <span class="font-semibold">Summary</span>
+              <span
+                class="font-semibold"
+                id="balance-summary"
+                >-3800 €</span
+              >
+            </div>
+          </div>
+        </div> -->
       </section>
     </main>
 
