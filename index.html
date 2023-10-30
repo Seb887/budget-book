@@ -27,7 +27,10 @@
 
     <!-- Main section -->
     <main class="flex min-w-min gap-10">
-      <section class="section-left flex flex-col gap-10 mt-10 w-5/12">
+      <aside
+        class="flex flex-col gap-10 mt-10 max-w-md"
+        id="sidebar"
+      >
         <div
           class="input-container p-5 pl-10 border border-l-0 border-slate-500 rounded-r-xl bg-slate-800"
         >
@@ -156,9 +159,12 @@
             </div>
           </div>
         </div>
-      </section>
+      </aside>
 
-      <section class="section-middle flex justify-center mt-10 w-full">
+      <section
+        class="flex justify-center mt-10 w-full"
+        id="month-lists"
+      >
         <article
           class="list-container p-5 bg-slate-800 border border-slate-500 rounded-xl w-8/12 min-w-min h-min"
         >
@@ -166,165 +172,174 @@
             Monat Jahr
           </h1> -->
           <div
-            class="time-selection flex mb-10 gap-5 text-xl text-gray-800 font-semibold"
+            class="list-header flex justify-between mb-10 text-xl text-gray-800 font-semibold"
           >
-            <select
-              name="months"
-              id="months-dropdown"
-              class="p-2 rounded-md bg-gray-300"
-            >
-              <option
-                class="month"
-                value="January"
+            <div class="flex gap-5">
+              <select
+                name="months"
+                id="months-dropdown"
+                class="p-2 rounded-md bg-gray-300"
               >
-                January
-              </option>
-              <option
-                class="month"
-                value="February"
-              >
-                February
-              </option>
-              <option
-                class="month"
-                value="March"
-              >
-                March
-              </option>
-              <option
-                class="month"
-                value="April"
-              >
-                April
-              </option>
-              <option
-                class="month"
-                value="May"
-              >
-                May
-              </option>
-              <option
-                class="month"
-                value="June"
-              >
-                June
-              </option>
-              <option
-                class="month"
-                value="Juli"
-              >
-                Juli
-              </option>
-              <option
-                class="month"
-                value="August"
-              >
-                August
-              </option>
-              <option
-                class="month"
-                value="September"
-              >
-                September
-              </option>
-              <option
-                class="month"
-                value="October"
-              >
-                October
-              </option>
-              <option
-                class="month"
-                value="November"
-              >
-                November
-              </option>
-              <option
-                class="month"
-                value="December"
-              >
-                December
-              </option>
-              <option
-                class="month"
-                value="All months"
-              >
-                All months
-              </option>
-            </select>
+                <option
+                  class="month"
+                  value="January"
+                >
+                  January
+                </option>
+                <option
+                  class="month"
+                  value="February"
+                >
+                  February
+                </option>
+                <option
+                  class="month"
+                  value="March"
+                >
+                  March
+                </option>
+                <option
+                  class="month"
+                  value="April"
+                >
+                  April
+                </option>
+                <option
+                  class="month"
+                  value="May"
+                >
+                  May
+                </option>
+                <option
+                  class="month"
+                  value="June"
+                >
+                  June
+                </option>
+                <option
+                  class="month"
+                  value="Juli"
+                >
+                  Juli
+                </option>
+                <option
+                  class="month"
+                  value="August"
+                >
+                  August
+                </option>
+                <option
+                  class="month"
+                  value="September"
+                >
+                  September
+                </option>
+                <option
+                  class="month"
+                  value="October"
+                >
+                  October
+                </option>
+                <option
+                  class="month"
+                  value="November"
+                >
+                  November
+                </option>
+                <option
+                  class="month"
+                  value="December"
+                >
+                  December
+                </option>
+                <option
+                  class="month"
+                  value="All months"
+                >
+                  All months
+                </option>
+              </select>
 
-            <select
-              name="years"
-              id="years-dropdown"
-              class="p-2 rounded-md bg-gray-300"
+              <select
+                name="years"
+                id="years-dropdown"
+                class="p-2 rounded-md bg-gray-300"
+              >
+                <option
+                  class="year"
+                  value="2020"
+                >
+                  2020
+                </option>
+                <option
+                  class="year"
+                  value="2021"
+                >
+                  2021
+                </option>
+                <option
+                  class="year"
+                  value="2022"
+                >
+                  2022
+                </option>
+                <option
+                  class="year"
+                  value="2023"
+                >
+                  2023
+                </option>
+                <option
+                  class="year"
+                  value="2024"
+                >
+                  2024
+                </option>
+                <option
+                  class="year"
+                  value="2025"
+                >
+                  2025
+                </option>
+                <option
+                  class="year"
+                  value="2026"
+                >
+                  2026
+                </option>
+                <option
+                  class="year"
+                  value="2027"
+                >
+                  2027
+                </option>
+                <option
+                  class="year"
+                  value="2028"
+                >
+                  2028
+                </option>
+                <option
+                  class="year"
+                  value="2029"
+                >
+                  2029
+                </option>
+                <option
+                  class="year"
+                  value="2030"
+                >
+                  2030
+                </option>
+              </select>
+            </div>
+
+            <div
+              class="flex items-center mr-10"
+              id="balance"
             >
-              <option
-                class="year"
-                value="2020"
-              >
-                2020
-              </option>
-              <option
-                class="year"
-                value="2021"
-              >
-                2021
-              </option>
-              <option
-                class="year"
-                value="2022"
-              >
-                2022
-              </option>
-              <option
-                class="year"
-                value="2023"
-              >
-                2023
-              </option>
-              <option
-                class="year"
-                value="2024"
-              >
-                2024
-              </option>
-              <option
-                class="year"
-                value="2025"
-              >
-                2025
-              </option>
-              <option
-                class="year"
-                value="2026"
-              >
-                2026
-              </option>
-              <option
-                class="year"
-                value="2027"
-              >
-                2027
-              </option>
-              <option
-                class="year"
-                value="2028"
-              >
-                2028
-              </option>
-              <option
-                class="year"
-                value="2029"
-              >
-                2029
-              </option>
-              <option
-                class="year"
-                value="2030"
-              >
-                2030
-              </option>
-            </select>
+              0 €
+            </div>
           </div>
 
           <ul class="month-list space-y-3"></ul>
@@ -346,42 +361,12 @@
         </article> -->
       </section>
 
-      <section class="section-right flex flex-col gap-10 mt-10 w-3/12">
-        <!-- <div
+      <!-- <section class="section-right flex flex-col gap-10 mt-10 w-3/12">
+        <div
           class="balance-container flex flex-col p-5 pr-10 min-w-min border border-r-0 border-slate-500 rounded-l-xl bg-slate-800 text-gray-300"
         >
-          <h1 class="mb-3 text-2xl font-bold">Balance</h1>
-          <div class="flex flex-col gap-1">
-            <div class="flex justify-between ml-3">
-              <span>Expense</span>
-              <span
-                class="text-red-500"
-                id="balance-expense"
-                >5000 €</span
-              >
-            </div>
-
-            <div class="flex justify-between ml-3">
-              <span>Income</span>
-              <span
-                class="text-green-500"
-                id="balance-income"
-                >1200 €</span
-              >
-            </div>
-
-            <hr class="ml-3" />
-            <div class="flex justify-between ml-3">
-              <span class="font-semibold">Summary</span>
-              <span
-                class="font-semibold"
-                id="balance-summary"
-                >-3800 €</span
-              >
-            </div>
-          </div>
-        </div> -->
-      </section>
+        </div>
+      </section> -->
     </main>
 
     <!-- <footer class="footer flex justify-center w-full p-2 text-slate-300">

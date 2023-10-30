@@ -5,7 +5,6 @@
 // DOM variables
 const sectionRight = document.querySelector('.section-right');
 const monthList = document.querySelector('.month-list');
-const listTitle = document.querySelector('.list-title');
 const listContainer = document.querySelector('.list-container');
 const noEntriesMessage = document.querySelector('#no-entries-message');
 const monthsDropdown = document.querySelector('#months-dropdown');
@@ -23,10 +22,11 @@ const typeExpense = document.querySelector('#type-expense');
 const typeIncome = document.querySelector('#type-income');
 
 // Balance variables
-const balanceContainer = document.querySelector('.balance-container');
-const balanceExpense = document.querySelector('#balance-expense');
-const balanceIncome = document.querySelector('#balance-income');
-const balanceSummary = document.querySelector('#balance-summary');
+const balance = document.querySelector('#balance');
+// const balanceContainer = document.querySelector('.balance-container');
+// const balanceExpense = document.querySelector('#balance-expense');
+// const balanceIncome = document.querySelector('#balance-income');
+// const balanceSummary = document.querySelector('#balance-summary');
 
 // Time variables
 const months = [
@@ -143,10 +143,14 @@ function createNewListItemHTML(obj) {
 
   if (obj.type === 'expense') {
     amount.classList.add('text-red-500');
-    amount.textContent = `-${obj.amount} €`;
+    amount.textContent = `-${(obj.amount / 100)
+      .toFixed(2)
+      .replace('.', ',')} €`;
   } else if (obj.type === 'income') {
     amount.classList.add('text-green-500');
-    amount.textContent = `+${obj.amount} €`;
+    amount.textContent = `+${(obj.amount / 100)
+      .toFixed(2)
+      .replace('.', ',')} €`;
   }
 
   const removeIcon = document.createElement('i');
@@ -170,116 +174,88 @@ function createNewListItemHTML(obj) {
   return listItem;
 }
 
-function createBalanceHTML() {
-  const container = document.createElement('div');
-  container.classList.add(
-    'balance-container',
-    'flex',
-    'flex-col',
-    'p-5',
-    'pr-10',
-    'min-w-min',
-    'border',
-    'border-r-0',
-    'border-slate-500',
-    'rounded-l-xl',
-    'bg-slate-800',
-    'text-gray-300'
-  );
+// function createBalanceHTML(expense, income, summary) {
+//   const container = document.createElement('div');
+//   container.classList.add(
+//     'balance-container',
+//     'flex',
+//     'flex-col',
+//     'p-5',
+//     'pr-10',
+//     'min-w-min',
+//     'border',
+//     'border-r-0',
+//     'border-slate-500',
+//     'rounded-l-xl',
+//     'bg-slate-800',
+//     'text-gray-300'
+//   );
 
-  const header = document.createElement('h1');
-  header.classList.add('mb-3', 'text-2xl', 'font-bold');
-  header.textContent = 'Balance';
+//   const header = document.createElement('h1');
+//   header.classList.add('mb-3', 'text-2xl', 'font-bold');
+//   header.textContent = 'Balance';
 
-  const innerContainer = document.createElement('div');
-  innerContainer.classList.add(
-    'balance-item-container',
-    'flex',
-    'flex-col',
-    'gap-1'
-  );
+//   const innerContainer = document.createElement('div');
+//   innerContainer.classList.add(
+//     'balance-item-container',
+//     'flex',
+//     'flex-col',
+//     'gap-1'
+//   );
 
-  const expenseContainer = document.createElement('div');
-  expenseContainer.classList.add('flex', 'justify-between', 'ml-3');
-  const expenseTitle = document.createElement('span');
-  expenseTitle.textContent = 'Expense';
-  const expenseNum = document.createElement('span');
-  expenseNum.classList.add('text-red-500');
-  expenseNum.id = 'balance-expense';
-  expenseNum.textContent = '0';
-  expenseContainer.appendChild(expenseTitle);
-  expenseContainer.appendChild(expenseNum);
+//   const expenseContainer = document.createElement('div');
+//   expenseContainer.classList.add('flex', 'justify-between', 'ml-3');
+//   const expenseTitle = document.createElement('span');
+//   expenseTitle.textContent = 'Expense';
+//   const expenseNum = document.createElement('span');
+//   expenseNum.classList.add('text-red-500');
+//   expenseNum.id = 'balance-expense';
+//   expenseNum.textContent = `-${expense.toFixed(2).replace('.', ',')} €`;
+//   expenseContainer.appendChild(expenseTitle);
+//   expenseContainer.appendChild(expenseNum);
 
-  const incomeContainer = document.createElement('div');
-  incomeContainer.classList.add('flex', 'justify-between', 'ml-3');
-  const incomeTitle = document.createElement('span');
-  incomeTitle.textContent = 'Income';
-  const incomeNum = document.createElement('span');
-  incomeNum.classList.add('text-green-500');
-  incomeNum.id = 'balance-income';
-  incomeNum.textContent = '0';
-  incomeContainer.appendChild(incomeTitle);
-  incomeContainer.appendChild(incomeNum);
+//   const incomeContainer = document.createElement('div');
+//   incomeContainer.classList.add('flex', 'justify-between', 'ml-3');
+//   const incomeTitle = document.createElement('span');
+//   incomeTitle.textContent = 'Income';
+//   const incomeNum = document.createElement('span');
+//   incomeNum.classList.add('text-green-500');
+//   incomeNum.id = 'balance-income';
+//   incomeNum.textContent = `+${income.toFixed(2).replace('.', ',')} €`;
+//   incomeContainer.appendChild(incomeTitle);
+//   incomeContainer.appendChild(incomeNum);
 
-  const summaryContainer = document.createElement('div');
-  summaryContainer.classList.add('flex', 'justify-between', 'ml-3');
-  const summaryTitle = document.createElement('span');
-  summaryTitle.textContent = 'Summary';
-  summaryTitle.classList.add('font-semibold');
-  const summaryNum = document.createElement('span');
-  summaryNum.classList.add('font-semibold');
-  summaryNum.id = 'balance-summary';
-  summaryNum.textContent = '0';
-  summaryContainer.appendChild(summaryTitle);
-  summaryContainer.appendChild(summaryNum);
+//   const summaryContainer = document.createElement('div');
+//   summaryContainer.classList.add('flex', 'justify-between', 'ml-3');
+//   const summaryTitle = document.createElement('span');
+//   summaryTitle.textContent = 'Summary';
+//   summaryTitle.classList.add('font-semibold');
+//   const summaryNum = document.createElement('span');
+//   summaryNum.classList.add('font-semibold');
+//   if (summary >= 0) {
+//     summaryNum.classList.add('text-green-500');
+//     summaryNum.textContent = `+${summary.toFixed(2).replace('.', ',')} €`;
+//   } else {
+//     summaryNum.classList.add('text-red-500');
+//     summaryNum.textContent = `${summary.toFixed(2).replace('.', ',')} €`;
+//   }
+//   summaryNum.id = 'balance-summary';
 
-  const line = document.createElement('hr');
-  line.classList.add('ml-3');
+//   summaryContainer.appendChild(summaryTitle);
+//   summaryContainer.appendChild(summaryNum);
 
-  container.appendChild(header);
-  container.appendChild(innerContainer);
-  innerContainer.appendChild(expenseContainer);
-  innerContainer.appendChild(incomeContainer);
-  innerContainer.appendChild(line);
-  innerContainer.appendChild(summaryContainer);
+//   const line = document.createElement('hr');
+//   line.classList.add('ml-3');
 
-  sectionRight.appendChild(container);
+//   container.appendChild(header);
+//   container.appendChild(innerContainer);
+//   innerContainer.appendChild(expenseContainer);
+//   innerContainer.appendChild(incomeContainer);
+//   innerContainer.appendChild(line);
+//   innerContainer.appendChild(summaryContainer);
 
-  // <div
-  //         class="balance-container flex flex-col p-5 pr-10 min-w-min border border-r-0 border-slate-500 rounded-l-xl bg-slate-800 text-gray-300"
-  // >
-  //   <h1 class="mb-3 text-2xl font-bold">Balance</h1>
-  //   <div class="balance-item-container flex flex-col gap-1">
-  //     <div class="flex justify-between ml-3">
-  //       <span>Expense</span>
-  //       <span
-  //         class="text-red-500"
-  //         id="balance-expense"
-  //         >5000 €</span
-  //       >
-  //     </div>
-
-  //     <div class="flex justify-between ml-3">
-  //       <span>Income</span>
-  //       <span
-  //         class="text-green-500"
-  //         id="balance-income"
-  //         >1200 €</span
-  //       >
-  //     </div>
-
-  //     <hr class="ml-3" />
-  //     <div class="flex justify-between ml-3">
-  //       <span class="font-semibold">Summary</span>
-  //       <span
-  //         class="font-semibold"
-  //         id="balance-summary"
-  //         >-3800 €</span
-  //       >
-  //     </div>
-  //   </div>
-  // </div>
-}
+//   sectionRight.appendChild(container);
+// }
 
 function addNewEntry() {
   // Check inputs for completion
@@ -298,7 +274,7 @@ function createNewEntry() {
     title: inputTitle.value,
     date: new Date(inputDate.value),
     type: getInputType(),
-    amount: parseFloat(inputAmount.value).toFixed(2).replace(/\./, ','),
+    amount: parseFloat(inputAmount.value) * 100,
     timestamp: Date.now(),
   };
 
@@ -313,32 +289,35 @@ function getInputType() {
   }
 }
 
-function updateBalanceBoard() {
+function createMonthBalance() {
   const entriesFromStorage = getEntriesFromLocalStorage();
+  const filteredEntries = sortByMonthYear(entriesFromStorage);
+
   let expense = 0;
   let income = 0;
   let summary = 0;
 
-  entriesFromStorage.forEach((item) => {
+  filteredEntries.forEach((item) => {
     if (item.type === 'expense') {
-      expense += parseFloat(item.amount);
+      expense += item.amount / 100;
     } else if (item.type === 'income') {
-      income += parseFloat(item.amount);
+      income += item.amount / 100;
     }
   });
 
   summary = -expense + income;
-  console.log('summary: ', summary);
 
   if (summary >= 0) {
-    balanceSummary.classList.add('text-green-500');
+    balance.classList.add('text-green-500');
+    balance.classList.remove('text-red-500');
+    balance.textContent = `+${summary.toFixed(2).replace('.', ',')} €`;
   } else {
-    balanceSummary.classList.add('text-red-500');
+    balance.classList.add('text-red-500');
+    balance.classList.remove('text-green-500');
+    balance.textContent = `${summary.toFixed(2).replace('.', ',')} €`;
   }
 
-  balanceExpense.textContent = `${expense} €`;
-  balanceIncome.textContent = `${income} €`;
-  balanceSummary.textContent = `${summary} €`;
+  // createBalanceHTML(expense, income, summary);
 }
 
 function addEntryToLocalStorage(obj) {
@@ -510,18 +489,7 @@ const UIController = () => {
   // Sort entries by date
   sortByDate(entriesFromStorage);
   sortByMonthYear(entriesFromStorage).forEach((e) => createNewListItemHTML(e));
-
-  createBalanceHTML();
-  // updateBalanceBoard();
-
-  // Control list area
-  // if (entriesFromStorage.length === 0) {
-  //   listContainer.style.display = 'none';
-  //   noEntriesMessage.style.display = 'flex';
-  // } else {
-  //   listContainer.style.display = 'block';
-  //   noEntriesMessage.style.display = 'none';
-  // }
+  createMonthBalance();
 };
 
 // EVENTS
