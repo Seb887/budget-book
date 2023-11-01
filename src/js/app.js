@@ -46,6 +46,8 @@ const months = [
 let dateNow = new Date();
 let currentMonthName = months[dateNow.getMonth()];
 let currentYear = dateNow.getFullYear();
+let currentDate = `${dateNow.getDay()}.${dateNow.getMonth()}.${dateNow.getFullYear()}`;
+let currentInputDate = currentDate;
 
 // --- FUNCTIONS ---
 
@@ -278,6 +280,8 @@ function createNewEntry() {
     timestamp: Date.now(),
   };
 
+  currentInputDate = new Date(inputDate.value);
+
   addEntryToLocalStorage(newObj);
 }
 
@@ -419,11 +423,13 @@ function sortByMonthYear(arr) {
 function defaultSettings() {
   // currentMonthName = monthsDropdown.value;
   // currentYear = parseFloat(yearsDropdown.value);
+  
+  // TODO: Set inputDate to todays date
+  inputDate.value = currentDate;
 
   month.forEach((element) => {
     if (element.getAttribute('selected')) {
       element.removeAttribute('selected');
-      console.log('month: ', element);
     }
 
     if (element.value === currentMonthName) {
@@ -434,7 +440,6 @@ function defaultSettings() {
   year.forEach((element) => {
     if (element.getAttribute('selected')) {
       element.removeAttribute('selected');
-      console.log('year: ', element);
     }
 
     if (element.value === currentYear.toString()) {
@@ -507,36 +512,10 @@ yearsDropdown.addEventListener('change', dropdownSettings);
 // TEST AREA //
 ///////////////
 
-// let now = new Date();
-// let currentMonth = now.getMonth();
-// let months = [
-//   'January',
-//   'February',
-//   'March',
-//   'April',
-//   'May',
-//   'June',
-//   'July',
-//   'August',
-//   'September',
-//   'October',
-//   'November',
-//   'December',
-// ];
-// let currentMonthName = months[currentMonth];
-// let currentYear = now.getFullYear();
-
-// console.log(now);
-// console.log(currentMonth);
-// console.log(currentMonthName);
-// console.log(currentYear);
-
-// console.log('TYPE: ', typeof new Date());
-
-// const expense = document.querySelector('#expense');
-// const income = document.querySelector('#income');
-// const rebooking = document.querySelector('#rebooking');
-
-// if (income.checked) {
-//   console.log('checked');
-// }
+console.log(
+  dateNow.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  })
+);
