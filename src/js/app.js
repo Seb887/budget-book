@@ -23,10 +23,6 @@ const typeIncome = document.querySelector('#type-income');
 
 // Balance variables
 const balance = document.querySelector('#balance');
-// const balanceContainer = document.querySelector('.balance-container');
-// const balanceExpense = document.querySelector('#balance-expense');
-// const balanceIncome = document.querySelector('#balance-income');
-// const balanceSummary = document.querySelector('#balance-summary');
 
 // Time variables
 const months = [
@@ -46,54 +42,13 @@ const months = [
 let dateNow = new Date();
 let currentMonthName = months[dateNow.getMonth()];
 let currentYear = dateNow.getFullYear();
-let currentDate = `${dateNow.getDay()}.${dateNow.getMonth()}.${dateNow.getFullYear()}`;
-let currentInputDate = currentDate;
+let currentInputDate = dateNow;
 
 // --- FUNCTIONS ---
-
-// Create HTML for article (title, month list)
-// function createNewArticleHTML(month, year) {
-//   const article = document.createElement('article');
-//   article.classList.add(
-//     'list-container',
-//     'p-5',
-//     'bg-slate-800',
-//     'border',
-//     'border-slate-500',
-//     'rounded-xl',
-//     'w-8/12',
-//     'min-w-min',
-//     'h-min'
-//   );
-
-//   const headerOne = document.createElement('h1');
-//   headerOne.classList.add(
-//     'list-title',
-//     'pl-1',
-//     'pb-5',
-//     'text-gray-300',
-//     'text-2xl',
-//     'font-bold'
-//   );
-//   headerOne.textContent = 'Oktober 2023';
-
-//   const ulElement = document.createElement('ul');
-//   ulElement.classList.add('month-list', 'space-y-3');
-
-//   article.appendChild(headerOne);
-//   article.appendChild(ulElement);
-//   listsSection.appendChild(article);
-
-//   let entriesFromStorage = getEntriesFromLocalStorage();
-//   entriesFromStorage.forEach((e) => createNewListItem(e));
-// }
 
 // Create HTML for list element
 function createNewListItemHTML(obj) {
   const listItem = document.createElement('li');
-  // obj.typ === 'ausgabe'
-  //   ? listItem.classList.add('ausgabe')
-  //   : listItem.classList.add('einnahme');
   listItem.classList.add(
     'flex',
     'bg-slate-600',
@@ -137,9 +92,9 @@ function createNewListItemHTML(obj) {
     'p-2',
     'w-5/12',
     'min-w-[120px]',
+    'max-w-[120px]',
     'text-right',
     'font-medium',
-    'border-r',
     'border-slate-700'
   );
 
@@ -155,6 +110,18 @@ function createNewListItemHTML(obj) {
       .replace('.', ',')} €`;
   }
 
+  const editIcon = document.createElement('i');
+  editIcon.classList.add(
+    'fa-solid',
+    'fa-pen-to-square',
+    'editElement',
+    'flex',
+    'items-center',
+    'p-2',
+    'text-center',
+    'text-gray-900'
+  );
+
   const removeIcon = document.createElement('i');
   removeIcon.classList.add(
     'fa-solid',
@@ -167,112 +134,31 @@ function createNewListItemHTML(obj) {
     'text-gray-900'
   );
 
+  const actions = document.createElement('div');
+  actions.classList.add(
+    'actions',
+    'flex',
+    'items-center',
+    'p-2',
+    'text-center',
+    'text-gray-900',
+    'border'
+  );
+
+  actions.appendChild(editIcon);
+  actions.appendChild(removeIcon);
+
   listItem.appendChild(date);
   listItem.appendChild(title);
+  listItem.appendChild(actions);
   listItem.appendChild(amount);
-  listItem.appendChild(removeIcon);
   monthList.appendChild(listItem);
 
   return listItem;
 }
 
-// function createBalanceHTML(expense, income, summary) {
-//   const container = document.createElement('div');
-//   container.classList.add(
-//     'balance-container',
-//     'flex',
-//     'flex-col',
-//     'p-5',
-//     'pr-10',
-//     'min-w-min',
-//     'border',
-//     'border-r-0',
-//     'border-slate-500',
-//     'rounded-l-xl',
-//     'bg-slate-800',
-//     'text-gray-300'
-//   );
-
-//   const header = document.createElement('h1');
-//   header.classList.add('mb-3', 'text-2xl', 'font-bold');
-//   header.textContent = 'Balance';
-
-//   const innerContainer = document.createElement('div');
-//   innerContainer.classList.add(
-//     'balance-item-container',
-//     'flex',
-//     'flex-col',
-//     'gap-1'
-//   );
-
-//   const expenseContainer = document.createElement('div');
-//   expenseContainer.classList.add('flex', 'justify-between', 'ml-3');
-//   const expenseTitle = document.createElement('span');
-//   expenseTitle.textContent = 'Expense';
-//   const expenseNum = document.createElement('span');
-//   expenseNum.classList.add('text-red-500');
-//   expenseNum.id = 'balance-expense';
-//   expenseNum.textContent = `-${expense.toFixed(2).replace('.', ',')} €`;
-//   expenseContainer.appendChild(expenseTitle);
-//   expenseContainer.appendChild(expenseNum);
-
-//   const incomeContainer = document.createElement('div');
-//   incomeContainer.classList.add('flex', 'justify-between', 'ml-3');
-//   const incomeTitle = document.createElement('span');
-//   incomeTitle.textContent = 'Income';
-//   const incomeNum = document.createElement('span');
-//   incomeNum.classList.add('text-green-500');
-//   incomeNum.id = 'balance-income';
-//   incomeNum.textContent = `+${income.toFixed(2).replace('.', ',')} €`;
-//   incomeContainer.appendChild(incomeTitle);
-//   incomeContainer.appendChild(incomeNum);
-
-//   const summaryContainer = document.createElement('div');
-//   summaryContainer.classList.add('flex', 'justify-between', 'ml-3');
-//   const summaryTitle = document.createElement('span');
-//   summaryTitle.textContent = 'Summary';
-//   summaryTitle.classList.add('font-semibold');
-//   const summaryNum = document.createElement('span');
-//   summaryNum.classList.add('font-semibold');
-//   if (summary >= 0) {
-//     summaryNum.classList.add('text-green-500');
-//     summaryNum.textContent = `+${summary.toFixed(2).replace('.', ',')} €`;
-//   } else {
-//     summaryNum.classList.add('text-red-500');
-//     summaryNum.textContent = `${summary.toFixed(2).replace('.', ',')} €`;
-//   }
-//   summaryNum.id = 'balance-summary';
-
-//   summaryContainer.appendChild(summaryTitle);
-//   summaryContainer.appendChild(summaryNum);
-
-//   const line = document.createElement('hr');
-//   line.classList.add('ml-3');
-
-//   container.appendChild(header);
-//   container.appendChild(innerContainer);
-//   innerContainer.appendChild(expenseContainer);
-//   innerContainer.appendChild(incomeContainer);
-//   innerContainer.appendChild(line);
-//   innerContainer.appendChild(summaryContainer);
-
-//   sectionRight.appendChild(container);
-// }
-
-function addNewEntry() {
-  // Check inputs for completion
-  if (!(inputTitle.value && inputDate.value && inputAmount.value)) {
-    alert('Please fill the form!');
-    return;
-  } else {
-    createNewEntry();
-    // defaultSettings();
-  }
-}
-
 function createNewEntry() {
   let newObj = {
-    // title: inputTitle.value,
     title: inputTitle.value,
     date: new Date(inputDate.value),
     type: getInputType(),
@@ -290,6 +176,17 @@ function getInputType() {
     return 'expense';
   } else if (typeIncome.checked) {
     return 'income';
+  }
+}
+
+function addNewEntry() {
+  // Check inputs for completion
+  if (!(inputTitle.value && inputDate.value && inputAmount.value)) {
+    alert('Please fill the form!');
+    return;
+  } else {
+    createNewEntry();
+    inputDate.valueAsDate = currentInputDate;
   }
 }
 
@@ -320,8 +217,6 @@ function createMonthBalance() {
     balance.classList.remove('text-green-500');
     balance.textContent = `${summary.toFixed(2).replace('.', ',')} €`;
   }
-
-  // createBalanceHTML(expense, income, summary);
 }
 
 function addEntryToLocalStorage(obj) {
@@ -350,7 +245,7 @@ function removeFromStorage(e) {
   let entriesFromStorage = getEntriesFromLocalStorage();
 
   if (e.target.classList.contains('removeElement')) {
-    const listElement = e.target.parentElement;
+    const listElement = e.target.parentElement.parentElement;
     let removeItemId = listElement.id;
 
     entriesFromStorage = entriesFromStorage.filter(
@@ -370,7 +265,6 @@ function clearList() {
 }
 function clearInputs() {
   inputTitle.value = '';
-  // inputDate.value = '';
   inputAmount.value = '';
 }
 
@@ -391,12 +285,6 @@ function sortByDate(arr) {
 }
 
 function sortByMonthYear(arr) {
-  // currentMonthName = monthsDropdown.value;
-  // currentYear = parseFloat(yearsDropdown.value);
-
-  // console.log('currentMonthName: ', currentMonthName);
-  // console.log('currentYear: ', currentYear);
-
   function callbackFunction(item) {
     let itemDate = new Date(item.date);
     let dateMonth = months[itemDate.getMonth()];
@@ -420,12 +308,8 @@ function sortByMonthYear(arr) {
   return filteredEntriesFromStorage;
 }
 
-function defaultSettings() {
-  // currentMonthName = monthsDropdown.value;
-  // currentYear = parseFloat(yearsDropdown.value);
-  
-  // TODO: Set inputDate to todays date
-  inputDate.value = currentDate;
+function start() {
+  inputDate.valueAsDate = currentInputDate;
 
   month.forEach((element) => {
     if (element.getAttribute('selected')) {
@@ -483,7 +367,6 @@ function dropdownSettings() {
 }
 
 // HTML aktualisieren
-
 const UIController = () => {
   clearList();
   clearInputs();
@@ -497,12 +380,9 @@ const UIController = () => {
   createMonthBalance();
 };
 
-// EVENTS
-// window.addEventListener('load', defaultSettings);
-defaultSettings();
+// --- EVENTS ---
+start();
 
-// FIXME: submitBtn setzt Dropdown Menü Einstellung zurück -> sollte aktuelle Werte behalten
-// FIXME: Verhalte submitBtn prüfen ob es window load durchführt
 submitBtn.addEventListener('click', addNewEntry);
 listContainer.addEventListener('click', removeFromStorage);
 monthsDropdown.addEventListener('change', dropdownSettings);
@@ -511,11 +391,3 @@ yearsDropdown.addEventListener('change', dropdownSettings);
 ////////////////
 // TEST AREA //
 ///////////////
-
-console.log(
-  dateNow.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  })
-);
