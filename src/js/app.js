@@ -76,7 +76,6 @@ function createNewListItemHTML(obj) {
 
   const title = document.createElement('span');
   title.classList.add(
-    'elementTitle',
     'p-2',
     'w-8/12',
     'min-w-[250px]',
@@ -84,11 +83,11 @@ function createNewListItemHTML(obj) {
     'text-left',
     'font-bold'
   );
+  title.id = 'elementTitle';
   title.textContent = obj.title;
 
   const amount = document.createElement('span');
   amount.classList.add(
-    'elementAmount',
     'p-2',
     'w-5/12',
     'min-w-[120px]',
@@ -97,6 +96,7 @@ function createNewListItemHTML(obj) {
     'font-medium',
     'border-slate-700'
   );
+  amount.id = 'elementAmount';
 
   if (obj.type === 'expense') {
     amount.classList.add('text-red-500');
@@ -119,7 +119,7 @@ function createNewListItemHTML(obj) {
     'items-center',
     'p-2',
     'text-center',
-    'text-gray-900'
+    'text-gray-300'
   );
 
   const removeIcon = document.createElement('i');
@@ -131,7 +131,7 @@ function createNewListItemHTML(obj) {
     'items-center',
     'p-2',
     'text-center',
-    'text-gray-900'
+    'text-gray-300'
   );
 
   const actions = document.createElement('div');
@@ -139,10 +139,9 @@ function createNewListItemHTML(obj) {
     'actions',
     'flex',
     'items-center',
-    'p-2',
     'text-center',
-    'text-gray-900',
-    'border'
+    'text-gray-900'
+    // 'border'
   );
 
   actions.appendChild(editIcon);
@@ -188,6 +187,8 @@ function addNewEntry() {
     createNewEntry();
     inputDate.valueAsDate = currentInputDate;
   }
+
+  clearInputs();
 }
 
 function createMonthBalance() {
@@ -241,12 +242,39 @@ function getEntriesFromLocalStorage() {
   return entriesFromStorage;
 }
 
-function removeFromStorage(e) {
+function itemActionHandler(e) {
   let entriesFromStorage = getEntriesFromLocalStorage();
 
+  // Edit item
+  if (e.target.classList.contains('editElement')) {
+    const listElement = e.target.parentElement.parentElement;
+    let editItemId = listElement.id;
+
+    for (const obj of entriesFromStorage) {
+      if (editItemId == obj.timestamp) {
+        // const itemIndex = entriesFromStorage.indexOf(obj);
+        console.log('CLICK EDIT');
+
+        inputTitle.value = obj.title;
+        inputDate.valueAsDate = new Date(obj.date);
+        inputAmount.value = (obj.amount / 100).toFixed(2).replace('.', ',');
+
+        // TODO: Item darf erst gelöscht werden wenn ich ADD Button drücke
+        entriesFromStorage = entriesFromStorage.filter(
+          (item) => editItemId != item.timestamp
+        );
+      }
+    }
+
+    localStorage.setItem('entries', JSON.stringify(entriesFromStorage));
+  }
+
+  // Remove item
   if (e.target.classList.contains('removeElement')) {
     const listElement = e.target.parentElement.parentElement;
     let removeItemId = listElement.id;
+
+    console.log('CLICK REMOVE');
 
     entriesFromStorage = entriesFromStorage.filter(
       (item) => removeItemId != item.timestamp
@@ -281,6 +309,11 @@ function sortByDate(arr) {
         return 1;
       }
     }
+    // if (a.timestamp > b.timestamp) {
+    //   return -1;
+    // } else {
+    //   return 1;
+    // }
   });
 }
 
@@ -332,6 +365,7 @@ function start() {
   });
 
   UIController();
+  clearInputs();
 }
 
 function dropdownSettings() {
@@ -369,7 +403,6 @@ function dropdownSettings() {
 // HTML aktualisieren
 const UIController = () => {
   clearList();
-  clearInputs();
 
   // Get from local storage and create list HTML
   let entriesFromStorage = getEntriesFromLocalStorage();
@@ -381,13 +414,19 @@ const UIController = () => {
 };
 
 // --- EVENTS ---
-start();
+window.addEventListener('load', start);
 
 submitBtn.addEventListener('click', addNewEntry);
-listContainer.addEventListener('click', removeFromStorage);
+listContainer.addEventListener('click', itemActionHandler);
 monthsDropdown.addEventListener('change', dropdownSettings);
 yearsDropdown.addEventListener('change', dropdownSettings);
 
 ////////////////
 // TEST AREA //
 ///////////////
+
+const inputTest = document.querySelector('#inputTest');
+
+// console.log(inputTest);
+
+// inputTitle.value = 'TEST TEXT';

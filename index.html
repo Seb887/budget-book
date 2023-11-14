@@ -34,40 +34,6 @@
         <div
           class="input-container p-5 pl-10 border border-l-0 border-slate-500 rounded-r-xl bg-slate-800"
         >
-          <form
-            id="input-form"
-            action="#"
-            method="get"
-          ></form>
-
-          <!-- Input typ -->
-          <!-- <div class="input-types flex mb-5">
-            <select
-              name="types"
-              id="months-dropdown"
-              class="p-2 rounded-md bg-gray-300"
-            >
-              <option
-                class="input-option"
-                value="Expense"
-              >
-                Expense
-              </option>
-              <option
-                class="input-option"
-                value="Income"
-              >
-                Income
-              </option>
-              <option
-                class="input-option"
-                value="Rebooking"
-              >
-                Rebooking
-              </option>
-            </select>
-          </div> -->
-
           <div class="input-types flex mb-5">
             <input
               type="radio"
@@ -120,29 +86,24 @@
               class="p-3 pl-3 rounded-md bg-gray-300 placeholder-gray-500"
               type="text"
               id="input-title"
-              name="title"
               placeholder="z.B. Einkaufen"
               size="10"
-              title="Titel des Eintrags"
+              value="test"
             />
             <input
               class="p-3 pl-2 rounded-md bg-gray-300 placeholder:text-gray-500"
               type="date"
               id="input-date"
-              name="date"
               size="10"
-              title="Datum des Eintrags"
             />
             <input
               class="p-3 pl-3 rounded-md bg-gray-300 placeholder-gray-500"
               type="number"
               id="input-amount"
-              name="amount"
               placeholder="z.B. 10,42"
               size="10"
               step="0.01"
               min="0.01"
-              title="Betrag des Eintrags (max. zwei Nachkommastellen, kein €-Zeichen)"
             />
             <div class="flex justify-center">
               <button
