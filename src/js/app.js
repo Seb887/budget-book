@@ -2,6 +2,8 @@
 
 // --- VARIABLES ---
 
+const test = 0;
+
 // DOM variables
 const sectionRight = document.querySelector('.section-right');
 const monthList = document.querySelector('.month-list');
