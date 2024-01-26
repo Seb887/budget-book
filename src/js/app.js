@@ -2,7 +2,7 @@
 
 // --- VARIABLES ---
 
-const test = 0;
+const test = 500;
 
 // DOM variables
 const sectionRight = document.querySelector('.section-right');
