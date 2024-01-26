@@ -17,9 +17,11 @@ const inputDate = document.querySelector('#input-date');
 const inputTitle = document.querySelector('#input-title');
 const inputAmount = document.querySelector('#input-amount');
 const inputTyp = document.querySelectorAll('#input-typ');
-const submitBtn = document.querySelector('#submit-btn');
 const typeExpense = document.querySelector('#type-expense');
 const typeIncome = document.querySelector('#type-income');
+const submitBtn = document.querySelector('#submit-btn');
+let editModeIsOn = false;
+let editObj;
 
 // Balance variables
 const balance = document.querySelector('#balance');
@@ -242,6 +244,32 @@ function getEntriesFromLocalStorage() {
   return entriesFromStorage;
 }
 
+function submitBtnHandler() {
+  if (editModeIsOn) {
+    saveEditedItem();
+  } else {
+    addNewEntry();
+  }
+}
+
+function saveEditedItem() {
+  let entriesFromStorage = getEntriesFromLocalStorage();
+
+  entriesFromStorage = entriesFromStorage.filter(
+    (item) => editObj.timestamp != item.timestamp
+  );
+
+  editObj.title = inputTitle.value;
+  editObj.date = inputDate.value;
+  editObj.amount = inputAmount.value;
+
+  entriesFromStorage.push(editObj);
+
+  localStorage.setItem('entries', JSON.stringify(entriesFromStorage));
+
+  editModeIsOn = false;
+}
+
 function itemActionHandler(e) {
   let entriesFromStorage = getEntriesFromLocalStorage();
 
@@ -250,23 +278,20 @@ function itemActionHandler(e) {
     const listElement = e.target.parentElement.parentElement;
     let editItemId = listElement.id;
 
+    editModeIsOn = true;
+
     for (const obj of entriesFromStorage) {
       if (editItemId == obj.timestamp) {
         // const itemIndex = entriesFromStorage.indexOf(obj);
-        console.log('CLICK EDIT');
+        console.log('CLICK EDIT', 'timestamp: ', obj.timestamp);
+
+        editObj = obj;
 
         inputTitle.value = obj.title;
         inputDate.valueAsDate = new Date(obj.date);
         inputAmount.value = (obj.amount / 100).toFixed(2).replace('.', ',');
-
-        // TODO: Item darf erst gelöscht werden wenn ich ADD Button drücke
-        entriesFromStorage = entriesFromStorage.filter(
-          (item) => editItemId != item.timestamp
-        );
       }
     }
-
-    localStorage.setItem('entries', JSON.stringify(entriesFromStorage));
   }
 
   // Remove item
@@ -416,7 +441,7 @@ const UIController = () => {
 // --- EVENTS ---
 window.addEventListener('load', start);
 
-submitBtn.addEventListener('click', addNewEntry);
+submitBtn.addEventListener('click', submitBtnHandler);
 listContainer.addEventListener('click', itemActionHandler);
 monthsDropdown.addEventListener('change', dropdownSettings);
 yearsDropdown.addEventListener('change', dropdownSettings);
@@ -424,9 +449,3 @@ yearsDropdown.addEventListener('change', dropdownSettings);
 ////////////////
 // TEST AREA //
 ///////////////
-
-const inputTest = document.querySelector('#inputTest');
-
-// console.log(inputTest);
-
-// inputTitle.value = 'TEST TEXT';
